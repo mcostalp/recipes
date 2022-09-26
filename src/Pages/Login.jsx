@@ -17,7 +17,7 @@ function Login() {
     };
     setLoginRegister();
 
-    history.push('/foods');
+    history.push('/meals');
   }
 
   function validationLogin(emailUser, senhaUser) {
