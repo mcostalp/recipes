@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-// import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+// import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function Login() {
-  // const history = useHistory();
+  const history = useHistory();
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
 
-  // function onHandleLogin() {
-  //   setUser({ email });
+  function onHandleLogin() {
+    const setLoginRegister = () => {
+      localStorage.setItem('user', JSON.stringify({ email }));
+      localStorage.setItem('mealsToken', JSON.stringify(1));
+      localStorage.setItem('drinksToken', JSON.stringify(1));
+    };
+    setLoginRegister();
 
-  //   const setLoginRegister = () => {
-  //     localStorage.setItem('mealsToken', 1);
-  //     localStorage.setItem('cocktailsToken', 1);
-  //   };
-  //   setLoginRegister();
-
-  //   history.push('/foods');
-  // }
+    history.push('/meals');
+  }
 
   function validationLogin(emailUser, senhaUser) {
     const EMAIL_VALI = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/gim;
@@ -29,6 +29,8 @@ function Login() {
   useEffect(() => {
     setBtnDisabled(validationLogin(email, senha));
   }, [email, senha]);
+
+  // useLocalStorage();
 
   return (
     <div>
@@ -58,7 +60,7 @@ function Login() {
         type="button"
         data-testid="login-submit-btn"
         disabled={ btnDisabled }
-        // onClick={ onHandleLogin }
+        onClick={ onHandleLogin }
       >
         Entrar
       </button>
