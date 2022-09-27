@@ -6,6 +6,7 @@ const dataToggleUrl = {
   ingredientSearch: (type, ingrediente) => `https://www.${type}ldb.com/api/json/v1/1/filter.php?i=${ingrediente}`,
   nameSearch: (type, name) => `https://www.${type}ldb.com/api/json/v1/1/search.php?s=${name}`,
   firstLetterSearch: (type, letter) => `https://www.${type}ldb.com/api/json/v1/1/search.php?f=${letter}`,
+  
 };
 export async function requestFetch(URL, type) {
   const key = type === 'themea' ? 'meals' : 'drinks';
