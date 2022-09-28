@@ -3,7 +3,7 @@ import RecipesContext from '../context/RecipesContext';
 
 const MAX_ARRAY_LENGTH = 12;
 
-function RecipeCard() {
+function RecipeCardMeal() {
   const [resp, setResp] = useState([]);
 
   const {
@@ -13,22 +13,22 @@ function RecipeCard() {
   useEffect(() => {
     Promise.resolve(response)
       .then((res) => setResp(res));
-  }, [response]);
+  }, [response, resp]);
 
   return (
     <div>
-      {resp
+      {resp !== null ? resp
         .slice(0, MAX_ARRAY_LENGTH).map((item, index) => (
           <div data-testid={ `${index}-recipe-card` } key={ index }>
-            <h2 data-testid={ `${index}-card-name` }>{item.strDrink}</h2>
+            <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
             <img
               data-testid={ `${index}-card-img` }
-              src={ item.strDrinkThumb }
-              alt={ item.strDrink }
+              src={ item.strMealThumb }
+              alt={ item.strMeal }
             />
-          </div>))}
+          </div>)) : ''}
     </div>
   );
 }
 
-export default RecipeCard;
+export default RecipeCardMeal;
