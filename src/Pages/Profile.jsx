@@ -7,7 +7,6 @@ function Profile() {
   return (
     <div>
       <Header
-        searchButton={ false }
         title={ title }
         profile
       />

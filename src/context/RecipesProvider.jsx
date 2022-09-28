@@ -1,19 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import RecipeContext from './RecipesContext';
+import RecipesContext from './RecipesContext';
+// import { fetchApi } from '../helpers/Services/apiRequest';
 
-function RecipesProvider({ children }) {
+export default function RecipesProvider({ children }) {
   // const context = { }
+  const [radioForm, setRadioForm] = useState('');
+  const [nameForm, setNameForm] = useState('');
+  const [pageType, setPageType] = useState('');
+  const [response, setResponse] = useState([]);
+
+  const contextValue = {
+    radioForm,
+    setRadioForm,
+    nameForm,
+    setNameForm,
+    pageType,
+    setPageType,
+    response,
+    setResponse,
+  };
 
   return (
-    <RecipeContext.Provider>
-      {children}
-    </RecipeContext.Provider>
+    <RecipesContext.Provider value={ contextValue }>
+      { children }
+    </RecipesContext.Provider>
   );
 }
 
 RecipesProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export default RecipesProvider;
