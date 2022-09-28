@@ -2,9 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Footer from '../Components/Footer';
 
-function MealsDetails() {
+function DrinksDetails() {
   const { id } = useParams();
-  const title = 'MealsDetails';
+  const title = 'DrinksDetails';
   console.log(id);
   return (
     <div>
@@ -15,4 +15,4 @@ function MealsDetails() {
   );
 }
 
-export default MealsDetails;
+export default DrinksDetails;

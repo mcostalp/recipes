@@ -2,14 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
+import RecipesProvider from './context/RecipesProvider';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM
   .render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>,
+    <RecipesProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </RecipesProvider>,
     document.getElementById('root'),
   );
 
