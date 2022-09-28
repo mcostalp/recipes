@@ -12,7 +12,7 @@ function RecipeCard() {
 
   useEffect(() => {
     Promise.resolve(response)
-      .then((res) => console.log(res));
+      .then((res) => setResp(res));
   }, [response]);
 
   return (
