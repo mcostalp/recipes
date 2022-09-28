@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from './RecipesContext';
-import { fetchApi } from '../helpers/Services/apiRequest';
+// import { fetchApi } from '../helpers/Services/apiRequest';
 
 export default function RecipesProvider({ children }) {
   // const context = { }
