@@ -29,6 +29,7 @@ export const fetchApi = async (pag, key, id) => {
     const response = await request.json();
     return await Object.values(response)[0];
   } catch (error) {
-    return alert('Your search must have only 1 (one) character');
+    // return alert('Your search must have only 1 (one) character');
+    return error;
   }
 };

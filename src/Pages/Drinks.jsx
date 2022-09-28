@@ -23,7 +23,7 @@ function Drinks() {
           setResp(res);
         }
       });
-  }, [response, resp]);
+  }, [response, resp, history]);
 
   return (
     <div>
