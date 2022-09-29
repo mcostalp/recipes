@@ -48,7 +48,7 @@ function Login() {
         Senha
         <input
           id="senha"
-          type="text"
+          type="password"
           value={ senha }
           onChange={ ({ target: { value } }) => setSenha(value) }
           data-testid="password-input"
