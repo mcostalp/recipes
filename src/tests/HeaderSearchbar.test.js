@@ -98,4 +98,19 @@ describe('Header component tests', () => {
     const profileHeading = screen.getByText(/Profile/i);
     expect(profileHeading).toBeInTheDocument();
   });
+
+  test('Verify if on drinks icon click, redirect to drinks page.', () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/drinks');
+
+    const drinkIconBtn = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinkIconBtn);
+
+    expect(history.location.pathname).toBe('/drinks');
+
+    const drinksHeading = screen.getByText(/drinks/i);
+    expect(drinksHeading).toBeInTheDocument();
+  });
 });
