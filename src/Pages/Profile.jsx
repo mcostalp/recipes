@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../Components/Header';
 import Footer from '../Components/Footer';
+import RecipesContext from '../context/RecipesContext';
 
 function Profile() {
   const h1Title = 'Profile';
   const history = useHistory();
-  const userEmail = JSON.parse(localStorage.getItem('user')).email;
+  const { userEmail } = useContext(RecipesContext);
 
   function logout() {
     localStorage.clear();
@@ -19,7 +20,7 @@ function Profile() {
         h1Title={ h1Title }
         profile
       />
-      <h4 data-testid="profile-email">{userEmail}</h4>
+      <h4 data-testid="profile-email">{userEmail.email}</h4>
       <button
         type="button"
         data-testid="profile-done-btn"
