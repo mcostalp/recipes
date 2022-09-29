@@ -51,7 +51,7 @@ export const fetchApi = async (pag, key, id) => {
     }
     return await Object.values(response)[0];
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     alert('Sorry, we haven\'t found any recipes for these filters.');
     return null;
   }

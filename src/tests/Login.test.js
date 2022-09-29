@@ -4,12 +4,12 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from '../helpers/renderWithRouter';
 
-describe('', () => {
+describe('Testa a página de Login', () => {
   beforeEach(() => {
     renderWithRouter(<App />);
   });
 
-  test('test login page', () => {
+  test('1 - Testa os elementos presentes na página', () => {
     const emailInput = screen.getByTestId('email-input');
     const passwordInput = screen.getByTestId('password-input');
     const loginBtn = screen.getByTestId('login-submit-btn');
@@ -31,8 +31,5 @@ describe('', () => {
 
     userEvent.type(passwordInput, 'minhoca321');
     userEvent.click(loginBtn);
-
-    // const foodEl = screen.getByRole('heading', { name: /^foods$/i, level: 1 });
-    // expect(foodEl).toBeInTheDocument()
   });
 });
