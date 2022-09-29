@@ -1,6 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
+import {
+  requestCategoryListItems,
+  requestFetchAll,
+} from '../helpers/Services/apiRequest';
 
 const MAX_ITEM_LENGTH = 12;
 const MAX_BTN_LENGTH = 5;
@@ -8,6 +12,7 @@ const MAX_BTN_LENGTH = 5;
 function RecipeCardMeal() {
   const [resp, setResp] = useState([]);
   const [btns, setBtns] = useState([]);
+  const [togleBtn, setTogleBtn] = useState('');
 
   const history = useHistory();
 
@@ -15,6 +20,7 @@ function RecipeCardMeal() {
     response,
     categoryBtns,
     pageState,
+    setResponse,
   } = useContext(RecipesContext);
 
   useEffect(() => {
@@ -22,7 +28,7 @@ function RecipeCardMeal() {
       .then((res) => {
         if (res === null) {
           console.log(res);
-        } else if (res.length === 1) {
+        } else if (res.length === 1 && togleBtn !== 'Goat') {
           const title = pageState === 'meals-all' ? 'meals' : 'drinks';
           const id = Object.values(res[0])[0];
           const page = title.toLowerCase();
@@ -38,6 +44,22 @@ function RecipeCardMeal() {
       .then((btn) => setBtns(btn));
   }, [categoryBtns]);
 
+  const onBtnClick = ({ target }) => {
+    const { name } = target;
+    if (name === togleBtn) {
+      setTogleBtn('');
+      setResponse(requestFetchAll(pageState, 'allRecipesList'));
+    } else {
+      setTogleBtn(name);
+      setResponse(requestCategoryListItems(pageState, name, 'categoryListItems'));
+    }
+  };
+
+  const onAllBtnClick = () => {
+    setTogleBtn('name');
+    setResponse(requestFetchAll(pageState, 'allRecipesList'));
+  };
+
   return (
     <div>
       {btns
@@ -47,19 +69,30 @@ function RecipeCardMeal() {
             key={ index }
             data-testid={ `${item.strCategory}-category-filter` }
             name={ item.strCategory }
+            onClick={ onBtnClick }
           >
             {item.strCategory}
           </button>))}
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        name="All-category-filter"
+        onClick={ onAllBtnClick }
+      >
+        All
+      </button>
       {resp !== null ? resp
         .slice(0, MAX_ITEM_LENGTH).map((item, index) => (
-          <div className="meal" data-testid={ `${index}-recipe-card` } key={ index }>
-            <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ item.strMealThumb }
-              alt={ item.strMeal }
-            />
-          </div>)) : ''}
+          <Link key={ index } to={ `/meals/${item.idMeal}` }>
+            <div className="meal" data-testid={ `${index}-recipe-card` }>
+              <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ item.strMealThumb }
+                alt={ item.strMeal }
+              />
+            </div>
+          </Link>)) : []}
     </div>
   );
 }

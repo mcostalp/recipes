@@ -1,6 +1,6 @@
 const dataToggleUrl = {
   categoryListBtns: (type) => `https://www.the${type}db.com/api/json/v1/1/list.php?c=list`,
-  // categoryListItems: (type, category) => `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`,
+  categoryListItems: (type, category) => `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`,
   allRecipesList: (type) => `https://www.the${type}db.com/api/json/v1/1/search.php?s=`,
   // recipeById: (type, id) => `https://www.the${type}db.com/api/json/v1/1/lookup.php?i=${id}`,
   ingredient: (type, ingrediente) => `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingrediente}`,
@@ -56,3 +56,16 @@ export const fetchApi = async (pag, key, id) => {
     return null;
   }
 };
+
+export async function requestCategoryListItems(pag, category, id) {
+  const typePag = pag === 'meals-all' ? 'meal' : 'cocktail';
+  const URL = dataToggleUrl[id](typePag, category);
+  try {
+    const request = await fetch(URL);
+    const response = await request.json();
+    return await Object.values(response)[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
