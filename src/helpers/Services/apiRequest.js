@@ -2,7 +2,7 @@ const dataToggleUrl = {
   categoryListBtns: (type) => `https://www.the${type}db.com/api/json/v1/1/list.php?c=list`,
   // categoryListItems: (type, category) => `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`,
   allRecipesList: (type) => `https://www.the${type}db.com/api/json/v1/1/search.php?s=`,
-  // recipeById: (type, id) => `https://www.the${type}db.com/api/json/v1/1/lookup.php?i=${id}`,
+  recipeById: (type, id) => `https://www.the${type}db.com/api/json/v1/1/lookup.php?i=${id}`,
   ingredient: (type, ingrediente) => `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingrediente}`,
   name: (type, name) => `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`,
   firstLetter: (type, letter) => `https://www.the${type}db.com/api/json/v1/1/search.php?f=${letter}`,
