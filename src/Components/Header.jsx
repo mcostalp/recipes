@@ -6,11 +6,12 @@ import searchIcon from '../images/searchIcon.svg';
 import { fetchApi } from '../helpers/Services/apiRequest';
 import RecipesContext from '../context/RecipesContext';
 
-function Header({ profile, searchButton }) {
+function Header({ profile, searchButton, h1Title }) {
   const history = useHistory();
   const [inputState, setInputState] = useState(false);
   const [name, setName] = useState('');
   const [title, setTitle] = useState('');
+  const [isMounted, setIsMounted] = useState();
 
   const {
     setResponse,
@@ -19,19 +20,11 @@ function Header({ profile, searchButton }) {
   } = useContext(RecipesContext);
 
   useEffect(() => {
+    setIsMounted(true);
     const page = pageState === 'meals-all' ? 'Meals' : 'Drinks';
     setTitle(page);
-    Promise.resolve(response)
-      .then((res) => {
-        if (res === null) {
-          console.log(res);
-        } else if (res.length === 1) {
-          const id = Object.values(res[0])[0];
-          const pageToGo = title.toLowerCase();
-          history.push(`/${pageToGo}/${id}`);
-        }
-      });
-  }, [response, history]);
+    return setIsMounted(false);
+  }, [response, isMounted, history, pageState, title]);
 
   const onImgClick = () => {
     if (inputState) {
@@ -131,7 +124,7 @@ function Header({ profile, searchButton }) {
       <h1
         data-testid="page-title"
       >
-        {title}
+        {h1Title}
       </h1>
       <div>
         {searchButton && (searchImg)}
@@ -146,4 +139,5 @@ export default Header;
 Header.propTypes = {
   profile: PropTypes.bool.isRequired,
   searchButton: PropTypes.bool.isRequired,
+  h1Title: PropTypes.string.isRequired,
 };

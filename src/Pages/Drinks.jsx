@@ -6,6 +6,7 @@ import RecipesContext from '../context/RecipesContext';
 import Recipes from '../Components/Recipes';
 
 function Drinks() {
+  const h1Title = 'Drinks';
   const {
     setPageState,
   } = useContext(RecipesContext);
@@ -20,6 +21,7 @@ function Drinks() {
         searchButton
         profile
         foods={ false }
+        h1Title={ h1Title }
       />
       <Recipes />
       <Footer />

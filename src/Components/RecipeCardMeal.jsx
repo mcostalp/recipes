@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 
 const MAX_ITEM_LENGTH = 12;
@@ -8,21 +9,34 @@ function RecipeCardMeal() {
   const [resp, setResp] = useState([]);
   const [btns, setBtns] = useState([]);
 
+  const history = useHistory();
+
   const {
     response,
-    pageState,
     categoryBtns,
+    pageState,
   } = useContext(RecipesContext);
 
   useEffect(() => {
     Promise.resolve(response)
-      .then((res) => setResp(res));
-  }, [response, resp, categoryBtns, pageState]);
+      .then((res) => {
+        if (res === null) {
+          console.log(res);
+        } else if (res.length === 1) {
+          const title = pageState === 'meals-all' ? 'meals' : 'drinks';
+          const id = Object.values(res[0])[0];
+          const page = title.toLowerCase();
+          history.push(`/${page}/${id}`);
+        } else {
+          setResp(res);
+        }
+      });
+  }, [response]);
 
   useEffect(() => {
     Promise.resolve(categoryBtns)
       .then((btn) => setBtns(btn));
-  }, [response, resp, categoryBtns, pageState]);
+  }, [categoryBtns]);
 
   return (
     <div>

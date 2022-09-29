@@ -13,8 +13,8 @@ export default function RecipesProvider({ children }) {
   const [pageState, setPageState] = useState('meals-all');
   const [categoryBtns, setCategoryBtns] = useState([]);
 
-  const dataTreatement = () => {
-    Promise.resolve(response)
+  const dataTreatement = (resp) => {
+    Promise.resolve(resp)
       .then((res) => {
         if (res === null) {
           console.log(res);
@@ -29,7 +29,6 @@ export default function RecipesProvider({ children }) {
   useEffect(() => {
     setResponse(requestFetchAll(pageState, 'allRecipesList'));
     setCategoryBtns(requestCategoryButtons(pageState, 'categoryListBtns'));
-    dataTreatement();
   }, [pageState]);
 
   const dataSwitch = (compare, func) => {
