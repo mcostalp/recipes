@@ -18,7 +18,7 @@ function Footer() {
 
   return (
     <footer
-      id="footer"
+      className="footer"
       data-testid="footer"
     >
       <input
