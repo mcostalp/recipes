@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import Footer from '../Components/Footer';
 
 function DrinksDetails() {
   const { id } = useParams();
@@ -10,7 +9,6 @@ function DrinksDetails() {
     <div>
       <h1>{title}</h1>
       <p>{id}</p>
-      <Footer />
     </div>
   );
 }

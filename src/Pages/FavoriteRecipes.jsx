@@ -2,11 +2,11 @@ import React from 'react';
 import Header from '../Components/Header';
 
 function FavoriteRecipes() {
-  const title = 'Favorite Recipes';
+  const h1Title = 'Favorite Recipes';
   return (
     <div>
       <Header
-        title={ title }
+        h1Title={ h1Title }
         profile
       />
     </div>

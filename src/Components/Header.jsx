@@ -1,19 +1,30 @@
 import PropTypes from 'prop-types';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import { fetchApi } from '../helpers/Services/apiRequest';
 import RecipesContext from '../context/RecipesContext';
 
-function Header({ title, profile, searchButton, foods }) {
+function Header({ profile, searchButton, h1Title }) {
   const history = useHistory();
   const [inputState, setInputState] = useState(false);
   const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [isMounted, setIsMounted] = useState();
 
   const {
     setResponse,
+    response,
+    pageState,
   } = useContext(RecipesContext);
+
+  useEffect(() => {
+    setIsMounted(true);
+    const page = pageState === 'meals-all' ? 'Meals' : 'Drinks';
+    setTitle(page);
+    return setIsMounted(false);
+  }, [response, isMounted, history, pageState, title]);
 
   const onImgClick = () => {
     if (inputState) {
@@ -33,7 +44,7 @@ function Header({ title, profile, searchButton, foods }) {
     const { target } = e;
     const filtro = Object.values(target).find((element) => element.checked);
     const textValue = target[0].value;
-    if (foods) {
+    if (pageState === 'meals-all') {
       const responseApi = fetchApi('foods', filtro.value, textValue);
       setResponse(responseApi);
     } else {
@@ -113,7 +124,7 @@ function Header({ title, profile, searchButton, foods }) {
       <h1
         data-testid="page-title"
       >
-        {title}
+        {h1Title}
       </h1>
       <div>
         {searchButton && (searchImg)}
@@ -126,8 +137,7 @@ function Header({ title, profile, searchButton, foods }) {
 export default Header;
 
 Header.propTypes = {
-  title: PropTypes.string.isRequired,
   profile: PropTypes.bool.isRequired,
   searchButton: PropTypes.bool.isRequired,
-  foods: PropTypes.bool.isRequired,
+  h1Title: PropTypes.string.isRequired,
 };

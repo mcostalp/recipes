@@ -2,11 +2,11 @@ import React from 'react';
 import Header from '../Components/Header';
 
 function DoneRecipes() {
-  const title = 'Done Recipes';
+  const h1Title = 'Done Recipes';
   return (
     <div>
       <Header
-        title={ title }
+        h1Title={ h1Title }
         profile
       />
     </div>

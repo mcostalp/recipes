@@ -3,11 +3,11 @@ import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 function Profile() {
-  const title = 'Profile';
+  const h1Title = 'Profile';
   return (
     <div>
       <Header
-        title={ title }
+        h1Title={ h1Title }
         profile
       />
       <Footer />
