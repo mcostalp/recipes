@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipesContext from '../context/RecipesContext';
 // import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function Login() {
@@ -8,12 +9,14 @@ function Login() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const { setUserEmail } = useContext(RecipesContext);
 
   function onHandleLogin() {
     const setLoginRegister = () => {
       localStorage.setItem('user', JSON.stringify({ email }));
       localStorage.setItem('mealsToken', JSON.stringify(1));
       localStorage.setItem('drinksToken', JSON.stringify(1));
+      setUserEmail({ email });
     };
     setLoginRegister();
 
@@ -48,7 +51,7 @@ function Login() {
         Senha
         <input
           id="senha"
-          type="text"
+          type="password"
           value={ senha }
           onChange={ ({ target: { value } }) => setSenha(value) }
           data-testid="password-input"
