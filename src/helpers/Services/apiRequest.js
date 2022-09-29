@@ -69,3 +69,16 @@ export async function requestCategoryListItems(pag, category, id) {
     return null;
   }
 }
+export async function requestDetails(page, key, id) {
+  const typePag = page === 'meals-all' ? 'meal' : 'cocktail';
+  const URL = dataToggleUrl[key](typePag, id);
+  try {
+    const request = await fetch(URL);
+    const response = await request.json();
+    console.log(Object.values(response)[0]);
+    return await Object.values(response)[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

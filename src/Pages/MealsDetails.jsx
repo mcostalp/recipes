@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
-import { fetchApi, requestFetchAll } from '../helpers/Services/apiRequest';
+import { requestDetails } from '../helpers/Services/apiRequest';
 
 function MealsDetails() {
   const { id } = useParams();
@@ -26,32 +26,35 @@ function MealsDetails() {
       });
   }, [response]);
 
+  const recipe = Object.values(response)[0];
+
   useEffect(() => {
-    setResponse(requestFetchAll('recipeById', id));
-  }, [pageState, history]);
+    setResponse(requestDetails(pageState, 'recipeById', id));
+    console.log(recipe);
+  }, []);
 
   return (
     <div>
       <h1>{title}</h1>
       <img
         data-testid="recipe-photo"
-        src={ response[0] }
-        alt={ response[0] }
+        src={ recipe }
+        alt={ localResp[0] }
       />
-      <h2 data-testid="recipe-title">{response[0]}</h2>
-      <h3 data-testid="recipe-category">{response[0]}</h3>
-      <p data-testid="instructions">{response[0]}</p>
+      <h2 data-testid="recipe-title">{localResp[0]}</h2>
+      <h3 data-testid="recipe-category">{localResp[0]}</h3>
+      <p data-testid="instructions">{localResp[0]}</p>
       {/* <iframe
         data-testid="video"
         width="480"
         height="315"
-        src={ response[0].replace('watch?v=', 'embed/') }
+        src={ localResp[0].replace('watch?v=', 'embed/') }
         title="YouTube video player"
         frameBorder="0"
         allow={ `accelerometer; autoplay; clipboard-write;
               encrypted-media; gyroscope; picture-in-picture` }
         allowFullScreen
-      /> */}
+  /> */}
     </div>
   );
 }
