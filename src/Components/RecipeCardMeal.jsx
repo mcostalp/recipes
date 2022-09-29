@@ -52,7 +52,7 @@ function RecipeCardMeal() {
           </button>))}
       {resp !== null ? resp
         .slice(0, MAX_ITEM_LENGTH).map((item, index) => (
-          <div data-testid={ `${index}-recipe-card` } key={ index }>
+          <div className="meal" data-testid={ `${index}-recipe-card` } key={ index }>
             <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
             <img
               data-testid={ `${index}-card-img` }
