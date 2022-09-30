@@ -44,7 +44,7 @@ function DrinksDetails() {
             />
             <h2 data-testid="recipe-title">{resp.strDrink}</h2>
             <h3 data-testid="recipe-category">{resp.strCategory}</h3>
-            <h3 data-testid="recipe-category">{resp.strAlcoholic ? resp.strAlcoholic : ''}</h3>
+            <h5>{resp.strAlcoholic}</h5>
             <p data-testid="instructions">{resp.strInstructions}</p>
             <RecipeIngredient />
           </div>)) : []}
