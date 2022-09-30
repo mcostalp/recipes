@@ -28,33 +28,164 @@ function RecipeIngredient() {
     setDetailResponse(requestDetails(pageState, 'recipeById', id));
   }, []);
 
+  const RemoveLength0 = () => {
+    const ingredients = Array.from(document.getElementsByTagName('li'));
+    ingredients.forEach((ingredient) => {
+      if (ingredient.innerText === '') {
+        ingredient.remove();
+      }
+    });
+  };
+  RemoveLength0();
+
   return (
     <div>
       {
         localResp.map((recipe, index) => (
           <ul key={ index }>
-            <li>{recipe.strIngredient1}</li>
-            <li>{recipe.strIngredient2}</li>
-            <li>{recipe.strIngredient3}</li>
-            <li>{recipe.strIngredient4}</li>
-            <li>{recipe.strIngredient5}</li>
-            {/* <li>{recipe.strIngredient6}</li>
-            <li>{recipe.strIngredient8}</li>
-            <li>{recipe.strIngredient9}</li>
-            <li>{recipe.strIngredient10}</li>
-            <li>{recipe.strIngredient11}</li>
-            <li>{recipe.strIngredient12}</li>
-            <li>{recipe.strIngredient13}</li>
-            <li>{recipe.strIngredient14}</li>
-            <li>{recipe.strIngredient15}</li>
-            <li>{recipe.strIngredient16}</li>
-            <li>{recipe.strIngredient17}</li>
-            <li>{recipe.strIngredient18}</li>
-            <li>{recipe.strIngredient19}</li>
-            <li>{recipe.strIngredient20}</li> */}
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient1}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient2}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient3}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient4}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient5}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient6}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient7}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient8}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient9}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient10}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient11}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient12}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient13}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient14}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient15}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient16}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient17}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient18}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient19}
+
+            </li>
+
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+            >
+              {recipe.strIngredient20}
+
+            </li>
           </ul>
         ))
       }
+
     </div>
   );
 }
