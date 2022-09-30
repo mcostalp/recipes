@@ -31,7 +31,7 @@ function RecipeIngredient() {
   const RemoveLength0 = () => {
     const ingredients = Array.from(document.getElementsByTagName('li'));
     ingredients.forEach((ingredient) => {
-      if (ingredient.innerText === '') {
+      if (ingredient.innerText === '' || ingredient.innerText === 'null null') {
         ingredient.remove();
       }
     });
