@@ -44,140 +44,140 @@ function RecipeIngredient() {
         localResp.map((recipe, index) => (
           <ul key={ index }>
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="0-ingredient-name-and-measure"
             >
               {recipe.strIngredient1}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="1-ingredient-name-and-measure"
             >
               {recipe.strIngredient2}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="2-ingredient-name-and-measure"
             >
               {recipe.strIngredient3}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="3-ingredient-name-and-measure"
             >
               {recipe.strIngredient4}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="4-ingredient-name-and-measure"
             >
               {recipe.strIngredient5}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="5-ingredient-name-and-measure"
             >
               {recipe.strIngredient6}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="6-ingredient-name-and-measure"
             >
               {recipe.strIngredient7}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="7-ingredient-name-and-measure"
             >
               {recipe.strIngredient8}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="8-ingredient-name-and-measure"
             >
               {recipe.strIngredient9}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="9-ingredient-name-and-measure"
             >
               {recipe.strIngredient10}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="10-ingredient-name-and-measure"
             >
               {recipe.strIngredient11}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="11-ingredient-name-and-measure"
             >
               {recipe.strIngredient12}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="12-ingredient-name-and-measure"
             >
               {recipe.strIngredient13}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="13-ingredient-name-and-measure"
             >
               {recipe.strIngredient14}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="14-ingredient-name-and-measure"
             >
               {recipe.strIngredient15}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="15-ingredient-name-and-measure"
             >
               {recipe.strIngredient16}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="16-ingredient-name-and-measure"
             >
               {recipe.strIngredient17}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="17-ingredient-name-and-measure"
             >
               {recipe.strIngredient18}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="18-ingredient-name-and-measure"
             >
               {recipe.strIngredient19}
 
             </li>
 
             <li
-              data-testid={ `${index}-ingredient-name-and-measure` }
+              data-testid="19-ingredient-name-and-measure"
             >
               {recipe.strIngredient20}
 

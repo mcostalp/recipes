@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import RecipeIngredient from '../Components/RecipeIngredient';
 import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
@@ -44,6 +45,7 @@ function DrinksDetails() {
             <h2 data-testid="recipe-title">{resp.strDrink}</h2>
             <h3 data-testid="recipe-category">{resp.strCategory}</h3>
             <p data-testid="instructions">{resp.strInstructions}</p>
+            <RecipeIngredient />
           </div>)) : []}
     </section>
 
