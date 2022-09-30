@@ -36,35 +36,35 @@ function MealsDetails() {
       <div>
         <h1>{title}</h1>
       </div>
-      {localResp.length === 1 ? localResp
-        .map((ingredient, index) => (
-          <div key={ index }>
-            <img
-              data-testid="recipe-photo"
-              src={ ingredient.strMealThumb }
-              alt={ ingredient.strMeal }
-              width="100px"
-            />
-            <h2 data-testid="recipe-title">{ingredient.strMeal}</h2>
-            <h3 data-testid="recipe-category">{ingredient.strCategory}</h3>
-            <p />
-            <p data-testid="instructions">{ingredient.strInstructions}</p>
+      {localResp.length === 1
+        ? localResp
+          .map((ingredient, index) => (
+            // const youtubeCharacters = 32;
+            // const removeWatchLink = ingredient.srtYoutube
+            //   .substring(youtubeCharacters);
+            <div key={ index }>
+              <img
+                data-testid="recipe-photo"
+                src={ ingredient.strMealThumb }
+                alt={ ingredient.strMeal }
+                width="100px"
+              />
+              <h2 data-testid="recipe-title">{ingredient.strMeal}</h2>
+              <h3 data-testid="recipe-category">{ingredient.strCategory}</h3>
+              <p />
+              <p data-testid="instructions">{ingredient.strInstructions}</p>
 
-            <RecipeIngredient />
+              <RecipeIngredient />
 
-            <iframe
-              width="560"
-              height="315"
-              src={ () => {
-                const youtubeCharacters = 32;
-                const removeWatchLink = ingredient.srtYoutube
-                  .substring(youtubeCharacters);
-                return `https://www.youtube.com/embed/${removeWatchLink}`;
-              } }
-              title="YouTube video player"
-              data-testid="video"
-            />
-          </div>)) : []}
+              <iframe
+                width="230"
+                height="170"
+                src="https://www.youtube.com/embed/1IszT_guI08"
+                title="YouTube video player"
+                data-testid="video"
+              />
+            </div>
+          )) : []}
     </section>
 
   );
