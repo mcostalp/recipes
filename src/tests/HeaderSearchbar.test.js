@@ -24,7 +24,7 @@ describe('Header component tests', () => {
     expect(screen.getByTestId(searchIcon)).toBeInTheDocument();
   });
 
-  test('on click in search icon, the bar is on the screen', () => {
+  test('on click in search icon, the bar and filters are on the screen', () => {
     const { history } = renderWithRouter(<App />);
 
     history.push('/meals');
@@ -50,5 +50,67 @@ describe('Header component tests', () => {
     expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
+  });
+
+  test('Test name filter', async () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/meals');
+
+    userEvent.click(screen.getByTestId(searchIcon));
+
+    const searchBar = screen.getByTestId('search-input');
+    const searchBtn = screen.getByTestId('exec-search-btn');
+    const nameFilter = screen.getByTestId('name-search-radio');
+
+    userEvent.type(searchBar, 'egg');
+    userEvent.click(nameFilter);
+    userEvent.click(searchBtn);
+
+    act(() => {
+      userEvent.type(searchBar, 'gg');
+      userEvent.click(nameFilter);
+      userEvent.click(searchBtn);
+    });
+    const searchResult = await screen.findByText(/egg/i);
+
+    // const searchResult = await screen.findByText(/meals/i);
+    expect(searchResult).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(searchResult).toBeInTheDocument();
+    });
+  });
+
+  // });
+
+  test('Verify if on profile icon click, redirect to profile page.', () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/meals');
+
+    const profileIcon = screen.getByTestId('profile-top-btn');
+
+    userEvent.click(profileIcon);
+
+    expect(history.location.pathname).toBe('/profile');
+
+    const profileHeading = screen.getByText(/Profile/i);
+    expect(profileHeading).toBeInTheDocument();
+  });
+
+  test('Verify if on drinks icon click, redirect to drinks page.', () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/drinks');
+
+    const drinkIconBtn = screen.getByTestId('drinks-bottom-btn');
+
+    userEvent.click(drinkIconBtn);
+
+    expect(history.location.pathname).toBe('/drinks');
+
+    const drinksHeading = screen.getByText(/drinks/i);
+    expect(drinksHeading).toBeInTheDocument();
   });
 });

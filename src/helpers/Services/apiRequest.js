@@ -1,8 +1,8 @@
 const dataToggleUrl = {
   categoryListBtns: (type) => `https://www.the${type}db.com/api/json/v1/1/list.php?c=list`,
-  // categoryListItems: (type, category) => `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`,
+  categoryListItems: (type, category) => `https://www.the${type}db.com/api/json/v1/1/filter.php?c=${category}`,
   allRecipesList: (type) => `https://www.the${type}db.com/api/json/v1/1/search.php?s=`,
-  // recipeById: (type, id) => `https://www.the${type}db.com/api/json/v1/1/lookup.php?i=${id}`,
+  recipeById: (type, id) => `https://www.the${type}db.com/api/json/v1/1/lookup.php?i=${id}`,
   ingredient: (type, ingrediente) => `https://www.the${type}db.com/api/json/v1/1/filter.php?i=${ingrediente}`,
   name: (type, name) => `https://www.the${type}db.com/api/json/v1/1/search.php?s=${name}`,
   firstLetter: (type, letter) => `https://www.the${type}db.com/api/json/v1/1/search.php?f=${letter}`,
@@ -51,8 +51,35 @@ export const fetchApi = async (pag, key, id) => {
     }
     return await Object.values(response)[0];
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     alert('Sorry, we haven\'t found any recipes for these filters.');
     return null;
   }
 };
+
+export async function requestCategoryListItems(pag, category, id) {
+  const typePag = pag === 'meals-all' ? 'meal' : 'cocktail';
+  const URL = dataToggleUrl[id](typePag, category);
+  try {
+    const request = await fetch(URL);
+    const response = await request.json();
+    return await Object.values(response)[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+export async function requestDetails(page, key, id) {
+  const typePag = page === 'meals-all' ? 'meal' : 'cocktail';
+  const URL = dataToggleUrl[key](typePag, id);
+  console.log(URL);
+  try {
+    const request = await fetch(URL);
+    const response = await request.json();
+    console.log(Object.values(response)[0]);
+    return await Object.values(response)[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

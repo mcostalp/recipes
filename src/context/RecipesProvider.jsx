@@ -12,6 +12,10 @@ export default function RecipesProvider({ children }) {
   const [response, setResponse] = useState([]);
   const [pageState, setPageState] = useState('meals-all');
   const [categoryBtns, setCategoryBtns] = useState([]);
+  const [userEmail, setUserEmail] = useState('');
+  const [detailResponse, setDetailResponse] = useState([]);
+
+  // const mail
 
   const dataTreatement = (resp) => {
     Promise.resolve(resp)
@@ -30,6 +34,10 @@ export default function RecipesProvider({ children }) {
     setResponse(requestFetchAll(pageState, 'allRecipesList'));
     setCategoryBtns(requestCategoryButtons(pageState, 'categoryListBtns'));
   }, [pageState]);
+
+  useEffect(() => {
+    setUserEmail({ email: 'email@mail.com' });
+  }, []);
 
   const dataSwitch = (compare, func) => {
     switch (compare) {
@@ -62,6 +70,10 @@ export default function RecipesProvider({ children }) {
     dataSwitch,
     categoryBtns,
     setCategoryBtns,
+    userEmail,
+    setUserEmail,
+    detailResponse,
+    setDetailResponse,
   };
 
   return (
