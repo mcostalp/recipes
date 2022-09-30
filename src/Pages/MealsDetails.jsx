@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
@@ -7,16 +7,15 @@ function MealsDetails() {
   const { id } = useParams();
   const [localResp, setLocalResp] = useState([]);
   const title = 'MealsDetails';
-  const history = useHistory();
 
   const {
-    response,
+    detailResponse,
+    setDetailResponse,
     pageState,
-    setResponse,
   } = useContext(RecipesContext);
 
   useEffect(() => {
-    Promise.resolve(response)
+    Promise.resolve(detailResponse)
       .then((res) => {
         if (res === null) {
           console.log(res);
@@ -24,38 +23,31 @@ function MealsDetails() {
           setLocalResp(res);
         }
       });
-  }, [response]);
-
-  const recipe = Object.values(response)[0];
+  }, [detailResponse]);
 
   useEffect(() => {
-    setResponse(requestDetails(pageState, 'recipeById', id));
-    console.log(recipe);
+    setDetailResponse(requestDetails(pageState, 'recipeById', id));
   }, []);
 
   return (
-    <div>
-      <h1>{title}</h1>
-      <img
-        data-testid="recipe-photo"
-        src={ recipe }
-        alt={ localResp[0] }
-      />
-      <h2 data-testid="recipe-title">{localResp[0]}</h2>
-      <h3 data-testid="recipe-category">{localResp[0]}</h3>
-      <p data-testid="instructions">{localResp[0]}</p>
-      {/* <iframe
-        data-testid="video"
-        width="480"
-        height="315"
-        src={ localResp[0].replace('watch?v=', 'embed/') }
-        title="YouTube video player"
-        frameBorder="0"
-        allow={ `accelerometer; autoplay; clipboard-write;
-              encrypted-media; gyroscope; picture-in-picture` }
-        allowFullScreen
-  /> */}
-    </div>
+    <section>
+      <div>
+        <h1>{title}</h1>
+      </div>
+      {localResp.length === 1 ? localResp
+        .map((resp, index) => (
+          <div key={ index }>
+            <img
+              data-testid="recipe-photo"
+              src={ resp.strMealThumb }
+              alt={ resp.strMeal }
+            />
+            <h2 data-testid="recipe-title">{resp.strMeal}</h2>
+            <h3 data-testid="recipe-category">{resp.strCategory}</h3>
+            <p data-testid="instructions">{resp.strInstructions}</p>
+          </div>)) : []}
+    </section>
+
   );
 }
 

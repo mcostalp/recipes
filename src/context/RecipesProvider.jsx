@@ -13,6 +13,7 @@ export default function RecipesProvider({ children }) {
   const [pageState, setPageState] = useState('meals-all');
   const [categoryBtns, setCategoryBtns] = useState([]);
   const [userEmail, setUserEmail] = useState('');
+  const [detailResponse, setDetailResponse] = useState([]);
 
   // const mail
 
@@ -71,6 +72,8 @@ export default function RecipesProvider({ children }) {
     setCategoryBtns,
     userEmail,
     setUserEmail,
+    detailResponse,
+    setDetailResponse,
   };
 
   return (

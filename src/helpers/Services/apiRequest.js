@@ -72,6 +72,7 @@ export async function requestCategoryListItems(pag, category, id) {
 export async function requestDetails(page, key, id) {
   const typePag = page === 'meals-all' ? 'meal' : 'cocktail';
   const URL = dataToggleUrl[key](typePag, id);
+  console.log(URL);
   try {
     const request = await fetch(URL);
     const response = await request.json();
