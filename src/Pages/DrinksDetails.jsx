@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import RecomendationMeals from '../Components/RecomendationMeals';
+import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
 function DrinksDetails() {
@@ -50,14 +51,10 @@ function DrinksDetails() {
         { localResp?.strCategory }
         {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
-<<<<<<< HEAD
-=======
 
->>>>>>> parent of b1a7ff6 (Req32)
+        <ShareFavoriteBtn />
+
       </h4>
-
-      <ShareFavoriteBtn />
-
       <ul>
         {ingredients.map((ingredient, index) => (
           <li
