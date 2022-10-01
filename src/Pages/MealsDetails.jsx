@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import RecipeIngredient from '../Components/RecipeIngredient';
 import RecomendationDrinks from '../Components/RecomendationDrinks';
 import RecipesContext from '../context/RecipesContext';
@@ -12,6 +12,7 @@ function MealsDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const title = 'MealsDetails';
+  const history = useHistory();
 
   const {
     pageState,
@@ -112,6 +113,7 @@ function MealsDetails() {
         data-testid="start-recipe-btn"
         className="start-recipe-btn"
         type="button"
+        onClick={ () => history.push(`${id}/in-progress`) }
       >
         Start Recipe
 

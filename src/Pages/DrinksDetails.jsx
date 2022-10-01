@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import RecomendationMeals from '../Components/RecomendationMeals';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
@@ -9,6 +9,7 @@ function DrinksDetails() {
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const title = 'DrinksDetails';
+  const history = useHistory();
 
   useEffect(() => {
     const fetch = async () => {
@@ -79,6 +80,7 @@ function DrinksDetails() {
         data-testid="start-recipe-btn"
         className="start-recipe-btn"
         type="button"
+        onClick={ () => history.push(`${id}/in-progress`) }
       >
         Start Recipe
 
