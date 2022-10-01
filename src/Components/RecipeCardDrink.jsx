@@ -87,6 +87,7 @@ function RecipeCardDrink() {
             <div data-testid={ `${index}-recipe-card` } key={ index }>
               <h2 data-testid={ `${index}-card-name` }>{item.strDrink}</h2>
               <img
+                height="150"
                 data-testid={ `${index}-card-img` }
                 src={ item.strDrinkThumb }
                 alt={ item.strDrink }

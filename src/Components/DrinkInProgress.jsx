@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import RecomendationMeals from '../Components/RecomendationMeals';
-import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
-import { requestDetails } from '../helpers/Services/apiRequest';
+import { useParams } from 'react-router-dom';
+import { requestDrinkInProgress } from '../helpers/Services/apiRequest';
 
-function DrinksDetails() {
+function DrinkInProgress() {
   const { id } = useParams();
   const [localResp, setLocalResp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
-  const title = 'DrinksDetails';
-  const history = useHistory();
+  const title = 'Recipe in Progress';
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await requestDetails('drinks-all', 'recipeById', id);
+      const response = await requestDrinkInProgress(id);
       setLocalResp(response[0]);
     };
     fetch();
@@ -47,12 +44,16 @@ function DrinksDetails() {
         alt={ localResp?.strDrink }
       />
       <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
+      <button data-testid="share-btn" type="button">
+        Share
+      </button>
+      <button data-testid="favorite-btn" type="button">
+        Favorite
+      </button>
       <h4 data-testid="recipe-category">
         { localResp?.strCategory }
         {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
-
-        <ShareFavoriteBtn />
 
       </h4>
       <ul>
@@ -68,28 +69,11 @@ function DrinksDetails() {
       <fieldset>
         <p data-testid="instructions">{ localResp?.strInstructions }</p>
       </fieldset>
-      <div>
-        <iframe
-          title="Video"
-          width="200"
-          height="100"
-          src={ localResp?.strYoutube?.replace('watch?v=', 'embed/') }
-          data-testid="video"
-        />
-      </div>
-      <RecomendationMeals />
-
-      <button
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-        type="button"
-        onClick={ () => history.push(`${id}/in-progress`) }
-      >
-        Start Recipe
-
+      <button data-testid="finish-recipe-btn" type="button">
+        Finish Recipe
       </button>
     </div>
   );
 }
 
-export default DrinksDetails;
+export default DrinkInProgress;

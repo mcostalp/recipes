@@ -28,6 +28,7 @@ describe('Header component tests', () => {
     const { history } = renderWithRouter(<App />);
 
     history.push('/meals');
+    // testes
 
     userEvent.click(screen.getByTestId(searchIcon));
     const searchBar = screen.getByTestId('search-input');

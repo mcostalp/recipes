@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import RecomendationMeals from '../Components/RecomendationMeals';
-import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
+import { useParams } from 'react-router-dom';
 import { requestDetails } from '../helpers/Services/apiRequest';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function DrinksDetails() {
+function MealInProgress() {
+  const title = 'Recipe in Progress';
   const { id } = useParams();
   const [localResp, setLocalResp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
-  const title = 'DrinksDetails';
-  const history = useHistory();
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
-      const response = await requestDetails('drinks-all', 'recipeById', id);
+      const response = await requestDetails('meals-all', 'recipeById', id);
       setLocalResp(response[0]);
     };
     fetch();
@@ -43,17 +44,22 @@ function DrinksDetails() {
       <img
         height="150"
         data-testid="recipe-photo"
-        src={ localResp?.strDrinkThumb }
-        alt={ localResp?.strDrink }
+        src={ localResp?.strMealThumb }
+        alt={ localResp?.strMeal }
       />
-      <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
+      <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
+      <input src={ shareIcon } alt="share" data-testid="share-btn" type="image" />
+
+      <input
+        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        alt="favorite"
+        data-testid="favorite-btn"
+        type="image"
+        onClick={ () => setIsFavorite(!isFavorite) }
+      />
+
       <h4 data-testid="recipe-category">
         { localResp?.strCategory }
-        {`${localResp?.strCategory}
-      ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
-
-        <ShareFavoriteBtn />
-
       </h4>
       <ul>
         {ingredients.map((ingredient, index) => (
@@ -77,19 +83,11 @@ function DrinksDetails() {
           data-testid="video"
         />
       </div>
-      <RecomendationMeals />
-
-      <button
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-        type="button"
-        onClick={ () => history.push(`${id}/in-progress`) }
-      >
-        Start Recipe
-
+      <button data-testid="finish-recipe-btn" type="button">
+        Finish Recipe
       </button>
     </div>
   );
 }
 
-export default DrinksDetails;
+export default MealInProgress;

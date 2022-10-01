@@ -87,6 +87,7 @@ function RecipeCardMeal() {
             <div className="meal" data-testid={ `${index}-recipe-card` }>
               <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
               <img
+                height="150"
                 data-testid={ `${index}-card-img` }
                 src={ item.strMealThumb }
                 alt={ item.strMeal }
