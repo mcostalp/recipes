@@ -39,20 +39,20 @@ export const fetchApi = async (pag, key, id) => {
   const URL = dataToggleUrl[key](typePag, id);
   const invalid = key === 'firstLetter' && id.length > 1;
   if (invalid) {
-    alert('Your search must have only 1 (one) character');
+    global.alert('Your search must have only 1 (one) character');
     return null;
   }
   try {
     const request = await fetch(URL);
     const response = await request.json();
     if (Object.values(response)[0] === null) {
-      alert('Sorry, we haven\'t found any recipes for these filters.');
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
       return null;
     }
     return await Object.values(response)[0];
   } catch (error) {
     // console.log(error);
-    alert('Sorry, we haven\'t found any recipes for these filters.');
+    global.alert('Sorry, we haven\'t found any recipes for these filters.');
     return null;
   }
 };
@@ -76,7 +76,7 @@ export async function requestDetails(page, key, id) {
   try {
     const request = await fetch(URL);
     const response = await request.json();
-    console.log(Object.values(response)[0]);
+    // console.log(Object.values(response)[0]);
     return await Object.values(response)[0];
   } catch (error) {
     console.log(error);
@@ -90,7 +90,7 @@ export async function requestDrinkInProgress(id) {
   try {
     const request = await fetch(URL);
     const response = await request.json();
-    console.log(Object.values(response)[0]);
+    // console.log(Object.values(response)[0]);
     return await Object.values(response)[0];
   } catch (error) {
     console.log(error);

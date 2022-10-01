@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { requestDetails } from '../helpers/Services/apiRequest';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function MealInProgress() {
   const title = 'Recipe in Progress';
@@ -8,6 +11,7 @@ function MealInProgress() {
   const [localResp, setLocalResp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -44,12 +48,16 @@ function MealInProgress() {
         alt={ localResp?.strMeal }
       />
       <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
-      <button data-testid="share-btn" type="button">
-        Share
-      </button>
-      <button data-testid="favorite-btn" type="button">
-        Favorite
-      </button>
+      <input src={ shareIcon } alt="share" data-testid="share-btn" type="image" />
+
+      <input
+        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        alt="favorite"
+        data-testid="favorite-btn"
+        type="image"
+        onClick={ () => setIsFavorite(!isFavorite) }
+      />
+
       <h4 data-testid="recipe-category">
         { localResp?.strCategory }
       </h4>

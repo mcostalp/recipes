@@ -51,10 +51,10 @@ function DrinksDetails() {
         { localResp?.strCategory }
         {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
-
-        <ShareFavoriteBtn />
-
       </h4>
+
+      <ShareFavoriteBtn />
+
       <ul>
         {ingredients.map((ingredient, index) => (
           <li
