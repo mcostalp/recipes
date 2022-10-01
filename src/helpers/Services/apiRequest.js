@@ -97,3 +97,15 @@ export async function requestDrinkInProgress(id) {
     return null;
   }
 }
+export async function requestFetchAllRecomendation(pag, id) {
+  const typePag = pag === 'meals-all' ? 'cocktail' : 'meal';
+  const URL = dataToggleUrl[id](typePag, typePag);
+  try {
+    const request = await fetch(URL);
+    const response = await request.json();
+    return await Object.values(response)[0];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}

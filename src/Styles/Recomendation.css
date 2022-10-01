@@ -1,0 +1,6 @@
+.recomend-main-container {
+  display: flex;
+  flex-direction: row;
+  overflow-y: hidden;
+  width: 300px;
+}
