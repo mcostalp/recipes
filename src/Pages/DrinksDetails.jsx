@@ -1,57 +1,77 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import RecipeIngredient from '../Components/RecipeIngredient';
-import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
 function DrinksDetails() {
   const { id } = useParams();
   const [localResp, setLocalResp] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
+  const [measures, setMeasures] = useState([]);
   const title = 'DrinksDetails';
 
-  const {
-    detailResponse,
-    setDetailResponse,
-    setPageState,
-  } = useContext(RecipesContext);
-
   useEffect(() => {
-    Promise.resolve(detailResponse)
-      .then((res) => {
-        if (res === null) {
-          console.log(res);
-        } else {
-          setLocalResp(res);
-        }
-      });
-  }, [detailResponse]);
-
-  useEffect(() => {
-    setPageState(title);
-    setDetailResponse(requestDetails('drinks-all', 'recipeById', id));
+    const fetch = async () => {
+      const response = await requestDetails('drinks-all', 'recipeById', id);
+      setLocalResp(response[0]);
+    };
+    fetch();
   }, []);
 
-  return (
-    <section>
-      <div>
-        <h1>{title}</h1>
-      </div>
-      {localResp.length === 1 ? localResp
-        .map((resp, index) => (
-          <div key={ index }>
-            <img
-              data-testid="recipe-photo"
-              src={ resp.strDrinkThumb }
-              alt={ resp.strDrink }
-            />
-            <h2 data-testid="recipe-title">{resp.strDrink}</h2>
-            <h3 data-testid="recipe-category">{resp.strCategory}</h3>
-            <h5>{resp.strAlcoholic}</h5>
-            <p data-testid="instructions">{resp.strInstructions}</p>
-            <RecipeIngredient />
-          </div>)) : []}
-    </section>
+  useEffect(() => {
+    const firstIngredientPosition = Object.keys(localResp)
+      .indexOf('strIngredient1');
+    const lastIngredientPosition = Object.keys(localResp)
+      .indexOf('strIngredient20');
+    const fitstMeasurePosition = Object.keys(localResp)
+      .indexOf('strMeasure1');
+    const lastMeasurePosition = Object.keys(localResp)
+      .indexOf('strMeasure20');
+    const ingredientValues = Object.values(localResp)
+      .slice(firstIngredientPosition, lastIngredientPosition);
+    const measureValues = Object.values(localResp)
+      .slice(fitstMeasurePosition, lastMeasurePosition);
+    setIngredients(ingredientValues.filter((ing) => ing));
+    setMeasures(measureValues.filter((meas) => meas !== ' '));
+  }, [localResp]);
 
+  return (
+    <div>
+      <h1>{title}</h1>
+      <img
+        data-testid="recipe-photo"
+        src={ localResp?.strDrinkThumb }
+        alt={ localResp?.strDrink }
+      />
+      <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
+      <h4 data-testid="recipe-category">
+        { localResp?.strCategory }
+        {`${localResp?.strCategory}
+      ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
+
+      </h4>
+      <ul>
+        {ingredients.map((ingredient, index) => (
+          <li
+            data-testid={ `${index}-ingredient-name-and-measure` }
+            key={ index }
+          >
+            {`${ingredient}: ${measures[index]}`}
+          </li>
+        ))}
+      </ul>
+      <fieldset>
+        <p data-testid="instructions">{ localResp?.strInstructions }</p>
+      </fieldset>
+      <div>
+        <iframe
+          title="Video"
+          width="200"
+          height="100"
+          src={ localResp?.strYoutube?.replace('watch?v=', 'embed/') }
+          data-testid="video"
+        />
+      </div>
+    </div>
   );
 }
 
