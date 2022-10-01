@@ -74,6 +74,15 @@ function DrinksDetails() {
         />
       </div>
       <RecomendationMeals />
+
+      <button
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        type="button"
+      >
+        Start Recipe
+
+      </button>
     </div>
   );
 }

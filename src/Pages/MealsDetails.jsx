@@ -4,6 +4,7 @@ import RecipeIngredient from '../Components/RecipeIngredient';
 import RecomendationDrinks from '../Components/RecomendationDrinks';
 import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
+import '../Styles/MealsDetails.css';
 
 function MealsDetails() {
   const { id } = useParams();
@@ -106,6 +107,15 @@ function MealsDetails() {
           )) : []}
 
       <RecomendationDrinks />
+
+      <button
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        type="button"
+      >
+        Start Recipe
+
+      </button>
     </div>
 
   );
