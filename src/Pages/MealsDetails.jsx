@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RecipeIngredient from '../Components/RecipeIngredient';
-import Recomendation from '../Components/Recomendation';
+import Rec from '../Components/Recomendation';
 import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
@@ -45,6 +45,7 @@ function MealsDetails() {
     <div>
       <h1>{title}</h1>
       <img
+        height="150"
         data-testid="recipe-photo"
         src={ localResp?.strMealThumb }
         alt={ localResp?.strMeal }
@@ -101,9 +102,10 @@ function MealsDetails() {
                 data-testid="video"
               />
 
-              <Recomendation />
             </div>
           )) : []}
+
+      <Rec />
     </div>
 
   );

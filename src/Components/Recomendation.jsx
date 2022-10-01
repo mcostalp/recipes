@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import RecipesContext from '../context/RecipesContext';
 import '../Styles/Recomendation.css';
 
-function Recomendation() {
+function Rec() {
   const [drinks, setDrinks] = useState([]);
   // const {
   //   pageState,
@@ -44,4 +44,4 @@ function Recomendation() {
   );
 }
 
-export default Recomendation;
+export default Rec;
