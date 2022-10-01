@@ -38,6 +38,7 @@ function DrinkInProgress() {
     <div>
       <h1>{title}</h1>
       <img
+        height="150"
         data-testid="recipe-photo"
         src={ localResp?.strDrinkThumb }
         alt={ localResp?.strDrink }
@@ -68,15 +69,6 @@ function DrinkInProgress() {
       <fieldset>
         <p data-testid="instructions">{ localResp?.strInstructions }</p>
       </fieldset>
-      <div>
-        <iframe
-          title="Video"
-          width="200"
-          height="100"
-          src={ localResp?.strYoutube?.replace('watch?v=', 'embed/') }
-          data-testid="video"
-        />
-      </div>
       <button data-testid="finish-recipe-btn" type="button">
         Finish Recipe
       </button>

@@ -38,6 +38,7 @@ function MealInProgress() {
     <div>
       <h1>{title}</h1>
       <img
+        height="150"
         data-testid="recipe-photo"
         src={ localResp?.strMealThumb }
         alt={ localResp?.strMeal }

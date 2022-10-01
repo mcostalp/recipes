@@ -38,6 +38,7 @@ function DrinksDetails() {
     <div>
       <h1>{title}</h1>
       <img
+        height="150"
         data-testid="recipe-photo"
         src={ localResp?.strDrinkThumb }
         alt={ localResp?.strDrink }
