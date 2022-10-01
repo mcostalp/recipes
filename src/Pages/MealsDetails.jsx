@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import RecipeIngredient from '../Components/RecipeIngredient';
-import Rec from '../Components/Recomendation';
+import RecomendationDrinks from '../Components/RecomendationDrinks';
 import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
@@ -105,7 +105,7 @@ function MealsDetails() {
             </div>
           )) : []}
 
-      <Rec />
+      <RecomendationDrinks />
     </div>
 
   );

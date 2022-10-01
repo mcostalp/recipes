@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import RecomendationMeals from '../Components/RecomendationMeals';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
 function DrinksDetails() {
@@ -72,6 +73,7 @@ function DrinksDetails() {
           data-testid="video"
         />
       </div>
+      <RecomendationMeals />
     </div>
   );
 }
