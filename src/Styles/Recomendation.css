@@ -2,5 +2,11 @@
   display: flex;
   flex-direction: row;
   overflow-y: hidden;
+  scrollbar-width: none;
   width: 310px;
 }
+
+.recomend-main-container::-webkit-scrollbar {
+  display: none;
+}
+
