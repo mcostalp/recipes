@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import RecomendationMeals from '../Components/RecomendationMeals';
+import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 import { requestDetails } from '../helpers/Services/apiRequest';
 
 function DrinksDetails() {
@@ -50,6 +51,8 @@ function DrinksDetails() {
         { localResp?.strCategory }
         {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
+
+        <ShareFavoriteBtn />
 
       </h4>
       <ul>

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import RecipeIngredient from '../Components/RecipeIngredient';
 import RecomendationDrinks from '../Components/RecomendationDrinks';
+import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import '../Styles/MealsDetails.css';
@@ -54,6 +55,7 @@ function MealsDetails() {
       />
       <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
       <h4 data-testid="recipe-category">{ localResp?.strCategory }</h4>
+      <ShareFavoriteBtn />
       <ul>
         {ingredients.map((ingredient, index) => (
           <li
