@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-// import useLocalStorage from 'use-local-storage';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -16,8 +15,9 @@ function MealInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
-  const [valueStorage, setValueStorage] = useState([{}]);
-
+  const [valueStorage, setValueStorage] = useState([]);
+  // const [inProgressStorage, setInProgressStorage] = useState([]);
+  // fetch
   useEffect(() => {
     const fetch = async () => {
       const response = await requestDetails('meals-all', 'recipeById', id);
@@ -25,28 +25,24 @@ function MealInProgress() {
     };
     fetch();
   }, []);
-
-  const doneRecipes = [{
-    id: '',
-    type: '',
-    nationality: '',
-    category: '',
-    alcoholicOrNot: '',
-    name: '',
-    image: '',
-    doneDate: '',
-    tags: '',
-    teste: '',
-  }, { drinksId: '' }];
-
-  const recipeStorage = () => {
-    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    setValueStorage();
-  };
-
+  // localStorage doneRecipes
   useEffect(() => {
-    recipeStorage();
-  }, [valueStorage]);
+    const localStorageDone = localStorage.getItem('doneRecipes');
+    if (localStorageDone !== null) {
+      setValueStorage(JSON.parse(localStorageDone));
+    } else {
+      setValueStorage([]);
+    }
+  }, []);
+  // localStorage inProgressRecipes
+  useEffect(() => {
+    const localStorageDone = localStorage.getItem('inProgressRecipes');
+    if (localStorageDone !== null) {
+      setInProgressStorage(JSON.parse(localStorageDone));
+    } else {
+      setInProgressStorage([]);
+    }
+  }, []);
 
   useEffect(() => {
     const firstIngredientPosition = Object.keys(localResp)
@@ -70,10 +66,6 @@ function MealInProgress() {
     console.log(localResp);
   }, [ingredients, measures, check]);
 
-  // useEffect(() => {
-
-  // });
-
   const onCheckClick = (({ target }) => {
     if (check.length === 0 || target.checked) {
       setCheck([...check,
@@ -91,6 +83,21 @@ function MealInProgress() {
   };
 
   const onFinishBtnClick = () => {
+    const newDoneRecipe = [...valueStorage,
+      {
+        id: localResp.idMeal,
+        type: 'meal',
+        nationality: localResp.strArea,
+        category: localResp.strCategory,
+        alcoholicOrNot: '',
+        name: localResp.strMeal,
+        image: localResp.strMealThumb,
+        doneDate: Date(),
+        tags: localResp.strTags !== null ? localResp.strTags
+          .split(',') : '',
+      }];
+    setValueStorage(newDoneRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipe));
     history.push('/done-recipes');
   };
 
