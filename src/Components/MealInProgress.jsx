@@ -45,6 +45,7 @@ function MealInProgress() {
     const teste = {
       id: localResp.idMeal,
     };
+
     const recipeStorage = () => {
       localStorage.setItem('doneRecipes', JSON.stringify(teste));
       setValueStorage();
