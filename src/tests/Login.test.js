@@ -33,6 +33,6 @@ describe('', () => {
     userEvent.click(loginBtn);
 
     // const foodEl = screen.getByRole('heading', { name: /^foods$/i, level: 1 });
-    // expect(foodEl).toBeInTheDocument()
+    // expect(foodEl).toBeInTheDocument
   });
 });
