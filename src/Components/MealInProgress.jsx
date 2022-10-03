@@ -16,31 +16,18 @@ function MealInProgress() {
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
   const [valueStorage, setValueStorage] = useState([]);
-  // const [inProgressStorage, setInProgressStorage] = useState([]);
-  // fetch
+
   useEffect(() => {
     const fetch = async () => {
       const response = await requestDetails('meals-all', 'recipeById', id);
       setLocalResp(response[0]);
     };
     fetch();
-  }, []);
-  // localStorage doneRecipes
-  useEffect(() => {
     const localStorageDone = localStorage.getItem('doneRecipes');
     if (localStorageDone !== null) {
       setValueStorage(JSON.parse(localStorageDone));
     } else {
       setValueStorage([]);
-    }
-  }, []);
-  // localStorage inProgressRecipes
-  useEffect(() => {
-    const localStorageDone = localStorage.getItem('inProgressRecipes');
-    if (localStorageDone !== null) {
-      setInProgressStorage(JSON.parse(localStorageDone));
-    } else {
-      setInProgressStorage([]);
     }
   }, []);
 
