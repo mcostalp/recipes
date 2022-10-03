@@ -24,11 +24,11 @@ function DrinksDetails() {
     const firstIngredientPosition = Object.keys(localResp)
       .indexOf('strIngredient1');
     const lastIngredientPosition = Object.keys(localResp)
-      .indexOf('strIngredient20');
+      .indexOf('strIngredient15');
     const fitstMeasurePosition = Object.keys(localResp)
       .indexOf('strMeasure1');
     const lastMeasurePosition = Object.keys(localResp)
-      .indexOf('strMeasure20');
+      .indexOf('strMeasure15');
     const ingredientValues = Object.values(localResp)
       .slice(firstIngredientPosition, lastIngredientPosition);
     const measureValues = Object.values(localResp)
@@ -71,7 +71,7 @@ function DrinksDetails() {
       <div>
         <iframe
           title="Video"
-          width="200"
+          width="150"
           height="100"
           src={ localResp?.strYoutube?.replace('watch?v=', 'embed/') }
           data-testid="video"

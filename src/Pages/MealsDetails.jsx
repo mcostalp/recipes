@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import RecipeIngredient from '../Components/RecipeIngredient';
+// import RecipeIngredient from '../Components/RecipeIngredient';
 import RecomendationDrinks from '../Components/RecomendationDrinks';
 import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 import RecipesContext from '../context/RecipesContext';
@@ -78,37 +78,6 @@ function MealsDetails() {
           data-testid="video"
         />
       </div>
-      {localResp.length === 1
-        ? localResp
-          .map((ingredient, index) => (
-            // const youtubeCharacters = 32;
-            // const removeWatchLink = ingredient.srtYoutube
-            //   .substring(youtubeCharacters);
-            <div key={ index }>
-              <img
-                data-testid="recipe-photo"
-                src={ ingredient.strMealThumb }
-                alt={ ingredient.strMeal }
-                width="100px"
-              />
-              <h2 data-testid="recipe-title">{ingredient.strMeal}</h2>
-              <h3 data-testid="recipe-category">{ingredient.strCategory}</h3>
-              <p />
-              <p data-testid="instructions">{ingredient.strInstructions}</p>
-
-              <RecipeIngredient />
-
-              <iframe
-                width="230"
-                height="170"
-                src="https://www.youtube.com/embed/1IszT_guI08"
-                title="YouTube video player"
-                data-testid="video"
-              />
-
-            </div>
-          )) : []}
-
       <RecomendationDrinks />
 
       <button

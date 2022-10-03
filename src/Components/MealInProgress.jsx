@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+// import useLocalStorage from 'use-local-storage';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -15,6 +16,7 @@ function MealInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [valueStorage, setValueStorage] = useState([{}]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -23,6 +25,28 @@ function MealInProgress() {
     };
     fetch();
   }, []);
+
+  const doneRecipes = [{
+    id: '',
+    type: '',
+    nationality: '',
+    category: '',
+    alcoholicOrNot: '',
+    name: '',
+    image: '',
+    doneDate: '',
+    tags: '',
+    teste: '',
+  }, { drinksId: '' }];
+
+  const recipeStorage = () => {
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+    setValueStorage();
+  };
+
+  useEffect(() => {
+    recipeStorage();
+  }, [valueStorage]);
 
   useEffect(() => {
     const firstIngredientPosition = Object.keys(localResp)
@@ -43,7 +67,12 @@ function MealInProgress() {
 
   useEffect(() => {
     console.log(history.location);
+    console.log(localResp);
   }, [ingredients, measures, check]);
+
+  // useEffect(() => {
+
+  // });
 
   const onCheckClick = (({ target }) => {
     if (check.length === 0 || target.checked) {
