@@ -15,6 +15,7 @@ function DrinkInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [valueStorage, setValueStorage] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -22,6 +23,12 @@ function DrinkInProgress() {
       setLocalResp(response[0]);
     };
     fetch();
+    const localStorageDone = localStorage.getItem('doneRecipes');
+    if (localStorageDone !== null) {
+      setValueStorage(JSON.parse(localStorageDone));
+    } else {
+      setValueStorage([]);
+    }
   }, []);
 
   useEffect(() => {
@@ -29,11 +36,11 @@ function DrinkInProgress() {
     const firstIngredientPosition = Object.keys(localResp)
       .indexOf('strIngredient1');
     const lastIngredientPosition = Object.keys(localResp)
-      .indexOf('strIngredient20');
+      .indexOf('strIngredient14');
     const fitstMeasurePosition = Object.keys(localResp)
       .indexOf('strMeasure1');
     const lastMeasurePosition = Object.keys(localResp)
-      .indexOf('strMeasure20');
+      .indexOf('strMeasure14');
     const ingredientValues = Object.values(localResp)
       .slice(firstIngredientPosition, lastIngredientPosition);
     const measureValues = Object.values(localResp)
@@ -44,7 +51,7 @@ function DrinkInProgress() {
   }, [localResp]);
 
   useEffect(() => {
-    console.log(ingredients, measures);
+    console.log(localResp, measures);
   }, [ingredients, measures]);
 
   const onCheckClick = (({ target }) => {
@@ -64,6 +71,21 @@ function DrinkInProgress() {
   };
 
   const onFinishBtnClick = () => {
+    const newDoneRecipe = [...valueStorage,
+      {
+        id: localResp.idDrink,
+        type: 'drink',
+        nationality: localResp.strArea,
+        category: localResp.strCategory,
+        alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
+        name: localResp.strDrink,
+        image: localResp.strDrinkThumb,
+        doneDate: Date(),
+        tags: localResp.strTags !== null ? localResp.strTags
+          .split(',') : '',
+      }];
+    setValueStorage(newDoneRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipe));
     history.push('/done-recipes');
   };
 
@@ -101,7 +123,7 @@ function DrinkInProgress() {
 
       </h4>
       <ul>
-        {measures.map((measure, index) => (
+        {ingredients.map((ingredient, index) => (
           <label
             htmlFor={ ingredients[index] }
             key={ index }
@@ -117,7 +139,7 @@ function DrinkInProgress() {
               data-testid={ `${index}-ingredient-name-and-measure` }
               key={ index }
             >
-              {`${ingredients[index]}: ${measures[index]}`}
+              {`${ingredient}: ${measures[index]}`}
             </li>
           </label>
         ))}

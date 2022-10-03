@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-// import useLocalStorage from 'use-local-storage';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -16,7 +15,7 @@ function MealInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
-  const [valueStorage, setValueStorage] = useState([{}]);
+  const [valueStorage, setValueStorage] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
@@ -24,8 +23,15 @@ function MealInProgress() {
       setLocalResp(response[0]);
     };
     fetch();
+    const localStorageDone = localStorage.getItem('doneRecipes');
+    if (localStorageDone !== null) {
+      setValueStorage(JSON.parse(localStorageDone));
+    } else {
+      setValueStorage([]);
+    }
   }, []);
 
+<<<<<<< HEAD
   const doneRecipes = [{
     id: '',
     type: '',
@@ -57,6 +63,8 @@ function MealInProgress() {
     // recipeStorage();
   }, [valueStorage]);
 
+=======
+>>>>>>> 62cba2123f4d5d5ce3dcbe612fb87b2cfae1d04d
   useEffect(() => {
     const firstIngredientPosition = Object.keys(localResp)
       .indexOf('strIngredient1');
@@ -96,8 +104,27 @@ function MealInProgress() {
   };
 
   const onFinishBtnClick = () => {
+<<<<<<< HEAD
     addDoneRecipe();
     // history.push('/done-recipes');
+=======
+    const newDoneRecipe = [...valueStorage,
+      {
+        id: localResp.idMeal,
+        type: 'meal',
+        nationality: localResp.strArea,
+        category: localResp.strCategory,
+        alcoholicOrNot: '',
+        name: localResp.strMeal,
+        image: localResp.strMealThumb,
+        doneDate: Date(),
+        tags: localResp.strTags !== null ? localResp.strTags
+          .split(',') : '',
+      }];
+    setValueStorage(newDoneRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipe));
+    history.push('/done-recipes');
+>>>>>>> 62cba2123f4d5d5ce3dcbe612fb87b2cfae1d04d
   };
 
   return (
