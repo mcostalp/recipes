@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
@@ -7,11 +7,14 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function MealInProgress() {
   const title = 'Recipe in Progress';
+  const history = useHistory();
   const { id } = useParams();
   const [localResp, setLocalResp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [check, setCheck] = useState([]);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -35,8 +38,32 @@ function MealInProgress() {
     const measureValues = Object.values(localResp)
       .slice(fitstMeasurePosition, lastMeasurePosition);
     setIngredients(ingredientValues.filter((ing) => ing));
-    setMeasures(measureValues.filter((meas) => meas !== ' '));
+    setMeasures(measureValues.filter((meas) => meas !== '' && meas !== null));
   }, [localResp]);
+
+  useEffect(() => {
+    console.log(history.location);
+  }, [ingredients, measures, check]);
+
+  const onCheckClick = (({ target }) => {
+    if (check.length === 0 || target.checked) {
+      setCheck([...check,
+        target.value]);
+    } else {
+      const newCheckArr = check.filter((ch) => ch !== target.value);
+      setCheck(newCheckArr);
+    }
+    console.log(target.value);
+  });
+
+  const clipCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/meals/${id}`);
+    setCopiedLink(true);
+  };
+
+  const onFinishBtnClick = () => {
+    history.push('/done-recipes');
+  };
 
   return (
     <div>
@@ -48,7 +75,15 @@ function MealInProgress() {
         alt={ localResp?.strMeal }
       />
       <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
-      <input src={ shareIcon } alt="share" data-testid="share-btn" type="image" />
+
+      <input
+        src={ shareIcon }
+        alt="share"
+        data-testid="share-btn"
+        type="image"
+        onClick={ clipCopy }
+      />
+      {copiedLink && <p>Link copied!</p>}
 
       <input
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
@@ -63,27 +98,37 @@ function MealInProgress() {
       </h4>
       <ul>
         {ingredients.map((ingredient, index) => (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
+          <label
+            htmlFor={ ingredient }
             key={ index }
+            data-testid={ `${index}-ingredient-step` }
           >
-            {`${ingredient}: ${measures[index]}`}
-          </li>
+            <input
+              id={ ingredient }
+              type="checkbox"
+              value={ ingredient }
+              onChange={ onCheckClick }
+
+            />
+            <li
+              data-testid={ `${index}-ingredient-name-and-measure` }
+              id={ ingredient }
+              values={ ingredient }
+            >
+              {`${ingredient}: ${measures[index]}`}
+            </li>
+          </label>
         ))}
       </ul>
       <fieldset>
         <p data-testid="instructions">{ localResp?.strInstructions }</p>
       </fieldset>
-      <div>
-        <iframe
-          title="Video"
-          width="200"
-          height="100"
-          src={ localResp?.strYoutube?.replace('watch?v=', 'embed/') }
-          data-testid="video"
-        />
-      </div>
-      <button data-testid="finish-recipe-btn" type="button">
+      <button
+        data-testid="finish-recipe-btn"
+        type="button"
+        disabled={ ingredients.length !== check.length }
+        onClick={ onFinishBtnClick }
+      >
         Finish Recipe
       </button>
     </div>
