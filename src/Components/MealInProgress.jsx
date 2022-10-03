@@ -37,15 +37,23 @@ function MealInProgress() {
     doneDate: '',
     tags: '',
     teste: '',
-  }, { drinksId: '' }];
+  }];
 
-  const recipeStorage = () => {
-    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    setValueStorage();
+  localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+
+  const addDoneRecipe = () => {
+    const teste = {
+      id: localResp.idMeal,
+    };
+    const recipeStorage = () => {
+      localStorage.setItem('doneRecipes', JSON.stringify(teste));
+      setValueStorage();
+    };
+    return recipeStorage();
   };
 
   useEffect(() => {
-    recipeStorage();
+    // recipeStorage();
   }, [valueStorage]);
 
   useEffect(() => {
@@ -70,10 +78,6 @@ function MealInProgress() {
     console.log(localResp);
   }, [ingredients, measures, check]);
 
-  // useEffect(() => {
-
-  // });
-
   const onCheckClick = (({ target }) => {
     if (check.length === 0 || target.checked) {
       setCheck([...check,
@@ -91,7 +95,8 @@ function MealInProgress() {
   };
 
   const onFinishBtnClick = () => {
-    history.push('/done-recipes');
+    addDoneRecipe();
+    // history.push('/done-recipes');
   };
 
   return (
