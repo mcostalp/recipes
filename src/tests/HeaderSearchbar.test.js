@@ -47,9 +47,9 @@ describe('Header component tests', () => {
 
     userEvent.click(screen.getByTestId(searchIcon));
 
-    expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
+    //  expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
     expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
+    //  expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
   });
 
@@ -126,35 +126,5 @@ describe('Header component tests', () => {
     expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
-  });
-
-  test('Test name filter', async () => {
-    const { history } = renderWithRouter(<App />);
-
-    history.push('/drinks');
-
-    userEvent.click(screen.getByTestId(searchIcon));
-
-    const searchBar = screen.getByTestId('search-input');
-    const searchBtn = screen.getByTestId('exec-search-btn');
-    const nameFilter = screen.getByTestId('name-search-radio');
-
-    userEvent.type(searchBar, 'vodka');
-    userEvent.click(nameFilter);
-    userEvent.click(searchBtn);
-
-    act(() => {
-      userEvent.type(searchBar, 'vodka');
-      userEvent.click(nameFilter);
-      userEvent.click(searchBtn);
-    });
-    const searchResult = await screen.findByText(/vodka/i);
-
-    // const searchResult = await screen.findByText(/meals/i);
-    expect(searchResult).toBeInTheDocument();
-
-    await waitFor(() => {
-      expect(searchResult).toBeInTheDocument();
-    });
   });
 });
