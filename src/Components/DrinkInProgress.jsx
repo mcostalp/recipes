@@ -93,7 +93,8 @@ function DrinkInProgress() {
         tags: localResp.strTags !== null ? localResp.strTags
           .split(',') : '',
       }];
-    setDoneLocalStorage(newDoneRecipe);
+    const saved = JSON.parse(localStorage.getItem('doneRecipes'));
+    setDoneLocalStorage([...saved, newDoneRecipe]);
     history.push('/done-recipes');
   };
 

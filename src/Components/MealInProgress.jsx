@@ -30,7 +30,7 @@ function MealInProgress() {
 
   useEffect(() => {
     const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log(inProgressLocalStorage);
+    console.log(inProgressLocalStorage, doneLocalStorage);
     Object.keys(inProgress).forEach((key) => {
       if (key === id) {
         setCheck(inProgress[key]);
@@ -76,20 +76,20 @@ function MealInProgress() {
   };
 
   const onFinishBtnClick = () => {
-    const newDoneRecipe = [...doneLocalStorage,
-      {
-        id: localResp.idMeal,
-        type: 'meal',
-        nationality: localResp.strArea,
-        category: localResp.strCategory,
-        alcoholicOrNot: '',
-        name: localResp.strMeal,
-        image: localResp.strMealThumb,
-        doneDate: Date(),
-        tags: localResp.strTags !== null ? localResp.strTags
-          .split(',') : '',
-      }];
-    setDoneLocalStorage(newDoneRecipe);
+    const newDoneRecipe = {
+      id: localResp.idMeal,
+      type: 'meal',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: '',
+      name: localResp.strMeal,
+      image: localResp.strMealThumb,
+      doneDate: Date(),
+      tags: localResp.strTags !== null ? localResp.strTags
+        .split(',') : '',
+    };
+    const saved = JSON.parse(localStorage.getItem('doneRecipes'));
+    setDoneLocalStorage([...saved, newDoneRecipe]);
     history.push('/done-recipes');
   };
 
