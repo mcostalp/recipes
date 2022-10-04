@@ -88,17 +88,24 @@ function MealsDetails() {
   // }, []);
 
   return (
-    <div>
+    <div className="details-main-content">
       <h1>{title}</h1>
-      <img
-        height="150"
-        data-testid="recipe-photo"
-        src={ localResp?.strMealThumb }
-        alt={ localResp?.strMeal }
-      />
-      <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
-      <h4 data-testid="recipe-category">{ localResp?.strCategory }</h4>
-      <ShareFavoriteBtn />
+
+      <div className="recipe-container">
+        <img
+          height="150"
+          data-testid="recipe-photo"
+          src={ localResp?.strMealThumb }
+          alt={ localResp?.strMeal }
+        />
+        <aside>
+          <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
+          <h4 data-testid="recipe-category">{ localResp?.strCategory }</h4>
+          <ShareFavoriteBtn />
+        </aside>
+
+      </div>
+
       <ul>
         {ingredients.map((ingredient, index) => (
           <li

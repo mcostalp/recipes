@@ -38,23 +38,30 @@ function DrinksDetails() {
   }, [localResp]);
 
   return (
-    <div>
+    <div className="details-main-content">
       <h1>{title}</h1>
-      <img
-        height="150"
-        data-testid="recipe-photo"
-        src={ localResp?.strDrinkThumb }
-        alt={ localResp?.strDrink }
-      />
-      <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
-      <h4 data-testid="recipe-category">
-        { localResp?.strCategory }
-        {`${localResp?.strCategory}
+
+      <div className="recipe-container">
+        <img
+          height="150"
+          data-testid="recipe-photo"
+          src={ localResp?.strDrinkThumb }
+          alt={ localResp?.strDrink }
+        />
+
+        <aside>
+          <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
+          <h4 data-testid="recipe-category">
+            { localResp?.strCategory }
+            {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
 
-        <ShareFavoriteBtn />
+          </h4>
+          <ShareFavoriteBtn />
+        </aside>
 
-      </h4>
+      </div>
+
       <ul>
         {ingredients.map((ingredient, index) => (
           <li
@@ -81,7 +88,7 @@ function DrinksDetails() {
 
       <button
         data-testid="start-recipe-btn"
-        className="start-recipe-btn"
+        className="start-recipe-btn btn"
         type="button"
         onClick={ () => history.push(`${id}/in-progress`) }
       >

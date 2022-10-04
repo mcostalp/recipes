@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../context/RecipesContext';
 // import { useLocalStorage } from '../hooks/useLocalStorage';
+import '../Styles/Login.css';
 
 function Login() {
   const history = useHistory();
@@ -36,37 +37,48 @@ function Login() {
   // useLocalStorage();
 
   return (
-    <div>
-      <label htmlFor="email">
-        Email
-        <input
-          id="email"
-          type="text"
-          value={ email }
-          onChange={ ({ target: { value } }) => setEmail(value) }
-          data-testid="email-input"
-        />
-      </label>
-      <label htmlFor="senha">
-        Senha
-        <input
-          id="senha"
-          type="password"
-          value={ senha }
-          onChange={ ({ target: { value } }) => setSenha(value) }
-          data-testid="password-input"
-        />
-      </label>
+    <div className="main-container-login">
+      <div className="bg-image" />
+      <div className="login-card">
 
-      <button
-        className="btn"
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ btnDisabled }
-        onClick={ onHandleLogin }
-      >
-        Entrar
-      </button>
+        <div className="login-head">
+          <h1>Login</h1>
+          <h5>Sign up</h5>
+        </div>
+
+        <label htmlFor="email">
+          <input
+            placeholder="Email"
+            id="email"
+            type="text"
+            value={ email }
+            onChange={ ({ target: { value } }) => setEmail(value) }
+            data-testid="email-input"
+          />
+        </label>
+
+        <label htmlFor="senha">
+          <input
+            placeholder="Senha"
+            id="senha"
+            type="password"
+            value={ senha }
+            onChange={ ({ target: { value } }) => setSenha(value) }
+            data-testid="password-input"
+          />
+        </label>
+
+        <button
+          className="btn"
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ btnDisabled }
+          onClick={ onHandleLogin }
+        >
+          Entrar
+        </button>
+      </div>
+
     </div>
   );
 }

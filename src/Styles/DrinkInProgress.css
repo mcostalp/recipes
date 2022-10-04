@@ -1,0 +1,8 @@
+.ol-container label {
+  display: flex;
+}
+
+.ol-container label input {
+  margin-right : 2rem;
+}
+

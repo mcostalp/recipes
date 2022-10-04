@@ -5,6 +5,8 @@ import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
+import '../Styles/DrinkInProgress.css';
+import '../Styles/MealsDetails.css';
 
 function DrinkInProgress() {
   const title = 'Recipe in Progress';
@@ -96,39 +98,47 @@ function DrinkInProgress() {
   };
 
   return (
-    <div>
+    <div details-main-content>
       <h1>{title}</h1>
-      <img
-        height="150"
-        data-testid="recipe-photo"
-        src={ localResp?.strDrinkThumb }
-        alt={ localResp?.strDrink }
-      />
-      <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
-      <input
-        src={ shareIcon }
-        alt="share"
-        data-testid="share-btn"
-        type="image"
-        onClick={ clipCopy }
-      />
-      {copiedLink && <p>Link copied!</p>}
 
-      <input
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-        alt="favorite"
-        data-testid="favorite-btn"
-        type="image"
-        onClick={ () => setIsFavorite(!isFavorite) }
-      />
+      <div className="recipe-container">
+        <img
+          height="150"
+          data-testid="recipe-photo"
+          src={ localResp?.strDrinkThumb }
+          alt={ localResp?.strDrink }
+        />
 
-      <h4 data-testid="recipe-category">
-        { localResp?.strCategory }
-        {`${localResp?.strCategory}
+        <aside>
+          <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
+          <input
+            src={ shareIcon }
+            alt="share"
+            data-testid="share-btn"
+            type="image"
+            onClick={ clipCopy }
+          />
+          {copiedLink && <p>Link copied!</p>}
+
+          <input
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+            type="image"
+            onClick={ () => setIsFavorite(!isFavorite) }
+          />
+
+          <h4 data-testid="recipe-category">
+            { localResp?.strCategory }
+            {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
 
-      </h4>
-      <ul>
+          </h4>
+        </aside>
+
+      </div>
+
+      <ul className="ol-container">
         {ingredients.map((ingredient, index) => (
           <label
             htmlFor={ ingredients[index] }
@@ -142,12 +152,14 @@ function DrinkInProgress() {
               onChange={ onCheckClick }
               checked={ check.includes(ingredient) }
             />
+
             <li
               data-testid={ `${index}-ingredient-name-and-measure` }
               key={ index }
             >
               {`${ingredient}: ${measures[index]}`}
             </li>
+
           </label>
         ))}
       </ul>
