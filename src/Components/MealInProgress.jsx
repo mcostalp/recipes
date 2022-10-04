@@ -4,6 +4,7 @@ import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function MealInProgress() {
   const title = 'Recipe in Progress';
@@ -16,6 +17,7 @@ function MealInProgress() {
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
   const [valueStorage, setValueStorage] = useState([]);
+  const [inProgress, setInProgress] = useLocalStorage('inProgressRecipes');
 
   useEffect(() => {
     const fetch = async () => {
