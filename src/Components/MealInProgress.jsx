@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
@@ -28,9 +28,9 @@ function MealInProgress() {
     fetch();
   }, []);
 
-  const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   useEffect(() => {
-    console.log(Object.keys(inProgress));
+    const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    console.log(inProgressLocalStorage);
     Object.keys(inProgress).forEach((key) => {
       if (key === id) {
         setCheck(inProgress[key]);
@@ -60,11 +60,11 @@ function MealInProgress() {
       const localCheck = [...check,
         target.value];
       setCheck(localCheck);
-      setInProgressLocalStorage({ ...inProgress, [id]: localCheck });
+      setInProgressLocalStorage({ [id]: localCheck });
     } else {
       const newCheckArr = check.filter((ch) => ch !== target.value);
       setCheck(newCheckArr);
-      setInProgressLocalStorage({ ...inProgress, [id]: newCheckArr });
+      setInProgressLocalStorage({ [id]: newCheckArr });
     }
     console.log(inProgressLocalStorage);
     console.log(target.value);
