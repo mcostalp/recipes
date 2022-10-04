@@ -12,8 +12,36 @@ function MealsDetails() {
   const [localResp, setLocalResp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+  const [recipeFinished, setRecipeFinished] = useState(true);
+  const [recipeInProgress, setRecipeInProgress] = useState('Start Recipe');
   const title = 'MealsDetails';
   const history = useHistory();
+
+  const progressRecipe = () => {
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (inProgressRecipes) {
+      const { meals } = inProgressRecipes;
+
+      // COMO PEGAR ID AQUI ???
+      meals.forEach((element) => {
+        //
+        if (element === id) {
+          setRecipeInProgress('Continue Recipe');
+        }
+      });
+    }
+  };
+
+  const finishedRecipe = () => {
+    const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (doneRecipes) {
+      doneRecipes.forEach((element) => {
+        if (element.id === id) {
+          setRecipeFinished(false);
+        }
+      });
+    }
+  };
 
   const {
     pageState,
@@ -25,6 +53,8 @@ function MealsDetails() {
       setLocalResp(response[0]);
     };
     fetch();
+    finishedRecipe();
+    progressRecipe();
   }, []);
 
   useEffect(() => {
@@ -79,16 +109,22 @@ function MealsDetails() {
         />
       </div>
       <RecomendationDrinks />
-
-      <button
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-        type="button"
-        onClick={ () => history.push(`${id}/in-progress`) }
-      >
-        Start Recipe
-
-      </button>
+      <div>
+        {recipeFinished
+        && (
+          <div>
+            <button
+              data-testid="start-recipe-btn"
+              className="start-recipe-btn"
+              type="button"
+              onClick={ () => history.push(`${id}/in-progress`) }
+              value={ recipeInProgress }
+            >
+              {recipeInProgress}
+            </button>
+          </div>
+        )}
+      </div>
     </div>
 
   );

@@ -18,7 +18,14 @@ function MealInProgress() {
   const [copiedLink, setCopiedLink] = useState(false);
   const [doneLocalStorage, setDoneLocalStorage] = useLocalStorage('doneRecipes', []);
   const [inProgressLocalStorage,
-    setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', []);
+    setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', {
+    drinks: {
+      id: [ingredients],
+    },
+    meals: {
+      id: [ingredients],
+    },
+  });
 
   useEffect(() => {
     const fetch = async () => {
