@@ -19,13 +19,21 @@ function MealInProgress() {
   const [doneLocalStorage, setDoneLocalStorage] = useLocalStorage('doneRecipes', []);
   const [inProgressLocalStorage,
     setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', []);
+  const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
 
   useEffect(() => {
     const fetch = async () => {
       const response = await requestDetails('meals-all', 'recipeById', id);
       setLocalResp(response[0]);
+      console.log(response[0]);
     };
     fetch();
+    console.log(doneLocalStorage);
+    // const saved = JSON.parse(localStorage.getItem('doneRecipes'));
+    // const localSave = localDone;
+    // if (saved !== null) {
+    //   setLocalDone([...saved, ...localSave]);
+    // }
   }, []);
 
   useEffect(() => {
@@ -75,7 +83,7 @@ function MealInProgress() {
     setCopiedLink(true);
   };
 
-  const onFinishBtnClick = () => {
+  const onFinishBtnClick = async () => {
     const newDoneRecipe = {
       id: localResp.idMeal,
       type: 'meal',
@@ -88,9 +96,34 @@ function MealInProgress() {
       tags: localResp.strTags !== null ? localResp.strTags
         .split(',') : '',
     };
-    const saved = JSON.parse(localStorage.getItem('doneRecipes'));
-    setDoneLocalStorage([...saved, newDoneRecipe]);
+    const saved = doneLocalStorage;
+    await setDoneLocalStorage([...saved, newDoneRecipe]);
     history.push('/done-recipes');
+  };
+
+  useEffect(() => {
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+  }, []);
+
+  const onFavoriteCheck = () => {
+    const newFavorite = {
+      id: localResp.idMeal,
+      type: 'meal',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: '',
+      name: localResp.strMeal,
+      image: localResp.strMealThumb,
+    };
+    const saved = favorites;
+    if (saved !== null && isFavorite === false) {
+      setFavorites([...saved, newFavorite]);
+      setIsFavorite(true);
+    } else if (saved !== null && isFavorite !== false) {
+      const newArr = saved.filter((fav) => fav.id !== id);
+      setFavorites(newArr);
+      setIsFavorite(false);
+    }
   };
 
   return (
@@ -118,7 +151,7 @@ function MealInProgress() {
         alt="favorite"
         data-testid="favorite-btn"
         type="image"
-        onClick={ () => setIsFavorite(!isFavorite) }
+        onClick={ onFavoriteCheck }
       />
 
       <h4 data-testid="recipe-category">

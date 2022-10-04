@@ -21,6 +21,7 @@ function DrinkInProgress() {
   const [doneLocalStorage, setDoneLocalStorage] = useLocalStorage('doneRecipes', []);
   const [inProgressLocalStorage,
     setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', []);
+  const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
 
   useEffect(() => {
     const fetch = async () => {
@@ -79,23 +80,47 @@ function DrinkInProgress() {
     setCopiedLink(true);
   };
 
-  const onFinishBtnClick = () => {
-    const newDoneRecipe = [...doneLocalStorage,
-      {
-        id: localResp.idDrink,
-        type: 'drink',
-        nationality: localResp.strArea,
-        category: localResp.strCategory,
-        alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
-        name: localResp.strDrink,
-        image: localResp.strDrinkThumb,
-        doneDate: Date(),
-        tags: localResp.strTags !== null ? localResp.strTags
-          .split(',') : '',
-      }];
-    const saved = JSON.parse(localStorage.getItem('doneRecipes'));
-    setDoneLocalStorage([...saved, newDoneRecipe]);
+  const onFinishBtnClick = async () => {
+    const newDoneRecipe = {
+      id: localResp.idDrink,
+      type: 'drink',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
+      name: localResp.strDrink,
+      image: localResp.strDrinkThumb,
+      doneDate: Date(),
+      tags: localResp.strTags !== null ? localResp.strTags
+        .split(',') : '',
+    };
+    const saved = doneLocalStorage;
+    await setDoneLocalStorage([...saved, newDoneRecipe]);
     history.push('/done-recipes');
+  };
+
+  useEffect(() => {
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+  }, []);
+
+  const onFavoriteCheck = () => {
+    const newFavorite = {
+      id: localResp.idDrink,
+      type: 'drink',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
+      name: localResp.strDrink,
+      image: localResp.strDrinkThumb,
+    };
+    const saved = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (saved !== null && isFavorite === false) {
+      setFavorites([...saved, newFavorite]);
+      setIsFavorite(true);
+    } else if (saved !== null && isFavorite !== false) {
+      const newArr = saved.filter((fav) => fav.id !== id);
+      setFavorites(newArr);
+      setIsFavorite(false);
+    }
   };
 
   return (
@@ -126,7 +151,7 @@ function DrinkInProgress() {
             alt="favorite"
             data-testid="favorite-btn"
             type="image"
-            onClick={ () => setIsFavorite(!isFavorite) }
+            onClick={ onFavoriteCheck }
           />
 
           <h4 data-testid="recipe-category">

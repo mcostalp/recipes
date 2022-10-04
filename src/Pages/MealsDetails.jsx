@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 // import RecipeIngredient from '../Components/RecipeIngredient';
-import RecomendationMeals from '../Components/RecomendationDrinks';
+import RecomendationDrinks from '../Components/RecomendationDrinks';
 import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 // import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
@@ -128,7 +128,7 @@ function MealsDetails() {
           data-testid="video"
         />
       </div>
-      <RecomendationMeals />
+      <RecomendationDrinks />
       {recipeFinished && <div>{recipeInProgress ? continueBtn : startBtn}</div>}
     </div>
 

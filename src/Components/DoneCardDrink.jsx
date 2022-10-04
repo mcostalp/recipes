@@ -44,11 +44,11 @@ export default function DoneMealCard({ item, index }) {
         {item.doneDate }
       </p>
       <ul>
-        {item.tags.slice(0, 2).map((tag, ind) => (
+        {item.tags !== '' ? item.tags.slice(0, 2).map((tag, ind) => (
           <li key={ ind } data-testid={ `${index}-${tag}-horizontal-tag` }>
             { tag }
           </li>
-        ))}
+        )) : ''}
       </ul>
       <input
         type="image"

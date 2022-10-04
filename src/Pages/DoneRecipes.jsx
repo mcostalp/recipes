@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
-import DoneMealCard from '../Components/DoneCardMeal';
-import DoneDrinkCard from '../Components/DoneDrinkCard';
+import DoneCardMeal from '../Components/DoneCardMeal';
+import DoneCardDrink from '../Components/DoneCardDrink';
 
 function DoneRecipes() {
   const [localDone, setLocalDone] = useState([]);
@@ -11,12 +11,14 @@ function DoneRecipes() {
 
   useEffect(() => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    setLocalDone(doneRecipes);
-    setFilter(doneRecipes);
-    const doneMeals = doneRecipes.filter((meal) => meal.type === 'meal');
-    setLocalDoneMeals(doneMeals);
-    const doneDrinks = doneRecipes.filter((drink) => drink.type === 'drink');
-    setLocalDoneDrinks(doneDrinks);
+    if (doneRecipes !== null) {
+      setLocalDone(doneRecipes);
+      setFilter(doneRecipes);
+      const doneMeals = doneRecipes.filter((meal) => meal.type === 'meal');
+      setLocalDoneMeals(doneMeals);
+      const doneDrinks = doneRecipes.filter((drink) => drink.type === 'drink');
+      setLocalDoneDrinks(doneDrinks);
+    }
     console.log(doneRecipes);
   }, []);
 
@@ -63,11 +65,15 @@ function DoneRecipes() {
         {filter.map((item, index) => {
           if (item?.type === 'meal') {
             return (
-              <DoneMealCard key={ index } item={ item } index={ index } />
+              <DoneCardMeal key={ index } item={ item } index={ index } />
             );
           }
           return (
-            <DoneDrinkCard key={ index } item={ item } index={ index } />
+            <DoneCardDrink
+              key={ index }
+              item={ item }
+              index={ index }
+            />
           );
         })}
       </ul>
