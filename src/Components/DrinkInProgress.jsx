@@ -30,7 +30,7 @@ function DrinkInProgress() {
 
   useEffect(() => {
     const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log(Object.keys(inProgress));
+    console.log(inProgressLocalStorage);
     Object.keys(inProgress).forEach((key) => {
       if (key === id) {
         setCheck(inProgress[key]);
