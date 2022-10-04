@@ -1,9 +1,9 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 // import RecipeIngredient from '../Components/RecipeIngredient';
-import RecomendationDrinks from '../Components/RecomendationDrinks';
+import RecomendationMeals from '../Components/RecomendationDrinks';
 import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
-import RecipesContext from '../context/RecipesContext';
+// import RecipesContext from '../context/RecipesContext';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import '../Styles/MealsDetails.css';
 
@@ -12,19 +12,19 @@ function MealsDetails() {
   const [localResp, setLocalResp] = useState([]);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+  const [recipeFinished, setRecipeFinished] = useState(true);
+  const [recipeInProgress, setRecipeInProgress] = useState(true);
   const title = 'MealsDetails';
   const history = useHistory();
 
-  const {
-    pageState,
-  } = useContext(RecipesContext);
-
   useEffect(() => {
     const fetch = async () => {
-      const response = await requestDetails(pageState, 'recipeById', id);
+      const response = await requestDetails('meals-all', 'recipeById', id);
       setLocalResp(response[0]);
     };
     fetch();
+    setRecipeFinished(true);
+    setRecipeInProgress(true);
   }, []);
 
   useEffect(() => {
@@ -43,6 +43,49 @@ function MealsDetails() {
     setIngredients(ingredientValues.filter((ing) => ing));
     setMeasures(measureValues.filter((meas) => meas !== ' '));
   }, [localResp]);
+
+  const startBtn = (
+    <div>
+      <button
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        type="button"
+        onClick={ () => history.push(`${id}/in-progress`) }
+        value="Start Recipe"
+      >
+        Start Recipe
+      </button>
+    </div>
+  );
+
+  const continueBtn = (
+    <div>
+      <button
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        type="button"
+        onClick={ () => history.push(`${id}/in-progress`) }
+        value="Continue Recipe"
+      >
+        Continue Recipe
+      </button>
+    </div>
+  );
+
+  // useEffect(() => {
+  //  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  //  if (inProgressRecipes !== null) {
+  //    if (Object.keys(inProgressRecipes).includes(id)) {
+  //      setRecipeInProgress(true);
+  //    }
+  //  }
+  //  if (doneRecipes !== null) {
+  //    if (Object.keys(doneRecipes).includes(id)) {
+  //      setRecipeFinished(true);
+  //    }
+  //  }
+  // }, []);
 
   return (
     <div>
@@ -78,17 +121,8 @@ function MealsDetails() {
           data-testid="video"
         />
       </div>
-      <RecomendationDrinks />
-
-      <button
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn"
-        type="button"
-        onClick={ () => history.push(`${id}/in-progress`) }
-      >
-        Start Recipe
-
-      </button>
+      <RecomendationMeals />
+      {recipeFinished && <div>{recipeInProgress ? continueBtn : startBtn}</div>}
     </div>
 
   );

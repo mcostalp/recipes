@@ -8,6 +8,7 @@ function DoneRecipes() {
       <Header
         h1Title={ h1Title }
         profile
+        searchButton
       />
       <button type="button" data-testid="filter-by-all-btn">All</button>
       <button type="button" data-testid="filter-by-meal-btn">Meals</button>

@@ -16,8 +16,9 @@ function MealInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
-  const [valueStorage, setValueStorage] = useState([]);
-  const [inProgress, setInProgress] = useLocalStorage('inProgressRecipes');
+  const [doneLocalStorage, setDoneLocalStorage] = useLocalStorage('doneRecipes', []);
+  const [inProgressLocalStorage,
+    setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', []);
 
   useEffect(() => {
     const fetch = async () => {
@@ -25,12 +26,16 @@ function MealInProgress() {
       setLocalResp(response[0]);
     };
     fetch();
-    const localStorageDone = localStorage.getItem('doneRecipes');
-    if (localStorageDone !== null) {
-      setValueStorage(JSON.parse(localStorageDone));
-    } else {
-      setValueStorage([]);
-    }
+  }, []);
+
+  const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  useEffect(() => {
+    console.log(Object.keys(inProgress));
+    Object.keys(inProgress).forEach((key) => {
+      if (key === id) {
+        setCheck(inProgress[key]);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -50,19 +55,18 @@ function MealInProgress() {
     setMeasures(measureValues.filter((meas) => meas !== '' && meas !== null));
   }, [localResp]);
 
-  useEffect(() => {
-    console.log(history.location);
-    console.log(localResp);
-  }, [ingredients, measures, check]);
-
   const onCheckClick = (({ target }) => {
     if (check.length === 0 || target.checked) {
-      setCheck([...check,
-        target.value]);
+      const localCheck = [...check,
+        target.value];
+      setCheck(localCheck);
+      setInProgressLocalStorage({ ...inProgress, [id]: localCheck });
     } else {
       const newCheckArr = check.filter((ch) => ch !== target.value);
       setCheck(newCheckArr);
+      setInProgressLocalStorage({ ...inProgress, [id]: newCheckArr });
     }
+    console.log(inProgressLocalStorage);
     console.log(target.value);
   });
 
@@ -72,7 +76,7 @@ function MealInProgress() {
   };
 
   const onFinishBtnClick = () => {
-    const newDoneRecipe = [...valueStorage,
+    const newDoneRecipe = [...doneLocalStorage,
       {
         id: localResp.idMeal,
         type: 'meal',
@@ -85,8 +89,7 @@ function MealInProgress() {
         tags: localResp.strTags !== null ? localResp.strTags
           .split(',') : '',
       }];
-    setValueStorage(newDoneRecipe);
-    localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipe));
+    setDoneLocalStorage(newDoneRecipe);
     history.push('/done-recipes');
   };
 
@@ -131,9 +134,10 @@ function MealInProgress() {
             <input
               id={ ingredient }
               type="checkbox"
+              name={ ingredient }
               value={ ingredient }
               onChange={ onCheckClick }
-
+              checked={ check.includes(ingredient) }
             />
             <li
               data-testid={ `${index}-ingredient-name-and-measure` }
