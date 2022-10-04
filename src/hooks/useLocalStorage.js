@@ -1,8 +1,7 @@
+import { useEffect, useState } from 'react';
 // // Ref: https://dev.to/iamludal/custom-react-hooks-uselocalstorage-309p
 
-import { useEffect, useState } from 'react';
-
-export default useLocalStorage = (key, defaultValue = null) => {
+const useLocalStorage = (key, defaultValue = null) => {
   const [value, setValue] = useState(() => {
     try {
       const saved = localStorage.getItem(key);
@@ -22,3 +21,5 @@ export default useLocalStorage = (key, defaultValue = null) => {
 
   return [value, setValue];
 };
+
+export default useLocalStorage;
