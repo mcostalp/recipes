@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
-import gigaMock from './Mocks/fetchMock';
+// import gigaMock from './Mocks/fetchMock';
 
 const whiteHeartIcon = 'whiteHeartIcon.svg';
 const blackHeartIcon = 'blackHeartIcon.svg';
@@ -16,6 +16,7 @@ describe('testing the recipe in progress page', () => {
   });
   test('verify if the foods in progress contains the expected elements', async () => {
     gigaMock('themeal', '52771');
+    renderWithRouter(<App />, [url]);
     localStorage.setItem('doneRecipes', JSON.stringify([{
       id: '178319',
       type: 'drink',

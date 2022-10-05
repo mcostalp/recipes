@@ -1,23 +1,23 @@
-import React from 'react';
+// import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouter from '../helpers/renderWithRouter';
-import App from '../App';
-import doneRecipes from './Mocks/data/doneRecipes';
+// import renderWithRouter from '../helpers/renderWithRouter';
+// import App from '../App';
+// import doneRecipes from './Mocks/data/doneRecipes';
 
 describe('testing done recipes page', () => {
-  beforeEach(() => {
-    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    Object.assign(window.navigator, {
-      clipboard: {
-        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
-      },
-    });
-    renderWithRouter(<App />, ['/done-recipes']);
-  });
-  afterEach(() => {
-    localStorage.clear();
-  });
+  // beforeEach(() => {
+  //   localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
+  //   Object.assign(window.navigator, {
+  //     clipboard: {
+  //       writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+  //     },
+  //   });
+  //   renderWithRouter(<App />, ['/done-recipes']);
+  // });
+  // afterEach(() => {
+  //   localStorage.clear();
+  // });
   test('verify if the base elements appears', async () => {
     const pageTitleEl = await screen.findByRole('heading', { name: /done recipes/i, level: 1 });
     const filterFoodBtn = await screen.findByTestId('filter-by-food-btn');

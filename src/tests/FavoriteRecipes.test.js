@@ -3,22 +3,22 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
-import favoriteRecipes from './Mocks/data/doneRecipes';
+// import favoriteRecipes from './Mocks/data/doneRecipes';
 
 const url = '/favorite-recipes';
 
 describe('', () => {
-  beforeEach(() => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    Object.assign(window.navigator, {
-      clipboard: {
-        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
-      },
-    });
-  });
-  afterEach(() => {
-    localStorage.clear();
-  });
+  // beforeEach(() => {
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  //   Object.assign(window.navigator, {
+  //     clipboard: {
+  //       writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+  //     },
+  //   });
+  // });
+  // afterEach(() => {
+  //   localStorage.clear();
+  // });
   test('verify if the favorite recipes elements appears', () => {
     renderWithRouter(<App />, [url]);
 

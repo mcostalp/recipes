@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
-import gigaMock from './Mocks/fetchMock';
+// import gigaMock from './Mocks/fetchMock';
 
 const url = '/foods/52771';
 const url2 = '/drinks/178319';
@@ -25,9 +25,9 @@ const localStorageMock = (() => {
     },
   };
 })();
-Object.defineProperty(window, 'localStorage', {
-  value: localStorageMock,
-});
+// Object.defineProperty(window, 'localStorage', {
+//   value: localStorageMock,
+// });
 
 describe('testing recipe details', () => {
   beforeEach(() => {

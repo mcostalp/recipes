@@ -3,14 +3,14 @@ import userEvent from '@testing-library/user-event';
 import React from 'react';
 import App from '../App';
 import renderWithRouter from '../helpers/renderWithRouter';
-import gigaMock from './Mocks/fetchMock';
+// import gigaMock from './Mocks/fetchMock';
 
 describe('', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
   test('verify if the /foods page contains the expected elements', async () => {
-    gigaMock('themeal');
+    // gigaMock('themeal');
     renderWithRouter(<App />, ['/foods']);
 
     const beefBtn = await screen.findByRole('button', {
