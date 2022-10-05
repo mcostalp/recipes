@@ -8,23 +8,23 @@ import App from '../App';
 const url = '/foods/52771';
 const url2 = '/drinks/178319';
 
-const localStorageMock = (() => {
-  let store = {};
-  return {
-    getItem(key) {
-      return store[key];
-    },
-    setItem(key, value) {
-      store[key] = value.toString();
-    },
-    clear() {
-      store = {};
-    },
-    removeItem(key) {
-      delete store[key];
-    },
-  };
-})();
+// const localStorageMock = (() => {
+//   let store = {};
+//   return {
+//     getItem(key) {
+//       return store[key];
+//     },
+//     setItem(key, value) {
+//       store[key] = value.toString();
+//     },
+//     clear() {
+//       store = {};
+//     },
+//     removeItem(key) {
+//       delete store[key];
+//     },
+//   };
+// })();
 // Object.defineProperty(window, 'localStorage', {
 //   value: localStorageMock,
 // });
