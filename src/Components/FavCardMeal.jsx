@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -11,8 +11,7 @@ export default function FavCardMeal({ item, index }) {
   const [copiedLink, setCopiedLink] = useState(false);
   const [isFavorite, setIsFavorite] = useState(true);
   const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
-  const { id } = useParams();
-  const [localResp, setLocalResp] = useState([]);
+  const [mount, setMount] = useState(false);
 
   const clipCopy = () => {
     navigator.clipboard.writeText(`http://localhost:3000/meals/${item.id}`);
@@ -24,33 +23,20 @@ export default function FavCardMeal({ item, index }) {
   };
 
   useEffect(() => {
-    setIsFavorite(favorites.some((fav) => fav.id === id));
-  }, []);
+    setIsFavorite(favorites.some((fav) => fav.id === item.id));
+    setMount(true);
+  }, [mount, favorites, item.id, isFavorite]);
 
   const onFavoriteCheck = () => {
-    const newFavorite = {
-      id: localResp.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: localResp.strCategory,
-      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
-      name: localResp.strDrink,
-      image: localResp.strDrinkThumb,
-    };
-    const saved = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (saved !== null && isFavorite === false) {
-      setFavorites([...saved, newFavorite]);
-      setIsFavorite(true);
-    } else if (saved !== null && isFavorite !== false) {
-      const newArr = saved.filter((fav) => fav.id !== id);
-      setFavorites(newArr);
-      setIsFavorite(false);
-    }
+    const newArr = favorites.filter((fav) => fav.id !== item.id);
+    setFavorites(newArr);
+    setIsFavorite(false);
+    setMount(false);
   };
 
   return (
     <div>
-      <Link to={ `/meals/${item.id}` }>
+      <Link to={ `/drinks/${item.id}` }>
         <img
           src={ item.image }
           alt={ item.name }
@@ -74,6 +60,16 @@ export default function FavCardMeal({ item, index }) {
 
         { `${item.nationality} - ${item.category}` }
       </h5>
+      <p data-testid={ `${index}-horizontal-done-date` }>
+        {item.doneDate }
+      </p>
+      <ul>
+        {item.tags !== undefined && tags.slice(0, 2).map((tag, ind) => (
+          <li key={ ind } data-testid={ `${index}-${tag}-horizontal-tag` }>
+            { tag }
+          </li>
+        ))}
+      </ul>
       <input
         type="image"
         alt="shareIcon"
@@ -86,7 +82,7 @@ export default function FavCardMeal({ item, index }) {
       <input
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         alt="favorite"
-        data-testid="favorite-btn"
+        data-testid={ `${index}-horizontal-favorite-btn` }
         type="image"
         onClick={ onFavoriteCheck }
       />

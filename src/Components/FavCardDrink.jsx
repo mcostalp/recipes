@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 import useLocalStorage from '../hooks/useLocalStorage';
@@ -11,8 +11,6 @@ export default function FavMealCard({ item, index }) {
   const [copiedLink, setCopiedLink] = useState(false);
   const [isFavorite, setIsFavorite] = useState(true);
   const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
-  const { id } = useParams();
-  const [localResp, setLocalResp] = useState([]);
 
   const clipCopy = () => {
     navigator.clipboard.writeText(`http://localhost:3000/drinks/${item.id}`);
@@ -24,28 +22,13 @@ export default function FavMealCard({ item, index }) {
   };
 
   useEffect(() => {
-    setIsFavorite(favorites.some((fav) => fav.id === id));
-  }, []);
+    setIsFavorite(favorites.some((fav) => fav.id === item.id));
+  }, [isFavorite, favorites]);
 
   const onFavoriteCheck = () => {
-    const newFavorite = {
-      id: localResp.idDrink,
-      type: 'drink',
-      nationality: '',
-      category: localResp.strCategory,
-      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
-      name: localResp.strDrink,
-      image: localResp.strDrinkThumb,
-    };
-    const saved = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (saved !== null && isFavorite === false) {
-      setFavorites([...saved, newFavorite]);
-      setIsFavorite(true);
-    } else if (saved !== null && isFavorite !== false) {
-      const newArr = saved.filter((fav) => fav.id !== id);
-      setFavorites(newArr);
-      setIsFavorite(false);
-    }
+    const newArr = favorites.filter((fav) => fav.id !== item.id);
+    setFavorites(newArr);
+    setIsFavorite(false);
   };
 
   return (
@@ -85,7 +68,7 @@ export default function FavMealCard({ item, index }) {
       <input
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
         alt="favorite"
-        data-testid="favorite-btn"
+        data-testid={ `${index}-horizontal-favorite-btn` }
         type="image"
         onClick={ onFavoriteCheck }
       />

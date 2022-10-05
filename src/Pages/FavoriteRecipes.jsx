@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
 import FavCardMeal from '../Components/FavCardMeal';
 import FavCardDrink from '../Components/FavCardDrink';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function FavoriteRecipes() {
   const [localFav, setLocalFav] = useState([]);
   const [localFavMeals, setLocalFavMeals] = useState([]);
   const [localFavDrinks, setLocalFavDrinks] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [favorites] = useLocalStorage('favoriteRecipes', []);
 
   useEffect(() => {
-    const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const favoriteRecipes = favorites;
     if (favoriteRecipes !== null) {
       setLocalFav(favoriteRecipes);
       setFilter(favoriteRecipes);
@@ -20,7 +22,7 @@ function FavoriteRecipes() {
       setLocalFavDrinks(favDrinks);
     }
     console.log(favoriteRecipes);
-  }, []);
+  }, [favorites]);
 
   const handleFilter = ({ target }) => {
     if (target.value === 'meal') setFilter(localFavMeals);
@@ -34,7 +36,6 @@ function FavoriteRecipes() {
       <Header
         h1Title={ h1Title }
         profile
-        searchButton
       />
       <div>
         <button
