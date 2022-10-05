@@ -2,10 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 // import RecipeIngredient from '../Components/RecipeIngredient';
 import RecomendationDrinks from '../Components/RecomendationDrinks';
-import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
+// import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 // import RecipesContext from '../context/RecipesContext';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { requestDetails } from '../helpers/Services/apiRequest';
 import '../Styles/MealsDetails.css';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function MealsDetails() {
   const { id } = useParams();
@@ -16,6 +20,9 @@ function MealsDetails() {
   const [recipeInProgress, setRecipeInProgress] = useState(true);
   const title = 'MealsDetails';
   const history = useHistory();
+  const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -43,6 +50,11 @@ function MealsDetails() {
     setIngredients(ingredientValues.filter((ing) => ing));
     setMeasures(measureValues.filter((meas) => meas !== ' '));
   }, [localResp]);
+
+  const clipCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/meals/${id}`);
+    setCopiedLink(true);
+  };
 
   const startBtn = (
     <div>
@@ -87,6 +99,31 @@ function MealsDetails() {
   //  }
   // }, []);
 
+  useEffect(() => {
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+  }, []);
+
+  const onFavoriteCheck = () => {
+    const newFavorite = {
+      id: localResp.idMeal,
+      type: 'meal',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: '',
+      name: localResp.strMeal,
+      image: localResp.strMealThumb,
+    };
+    const saved = favorites;
+    if (saved !== null && isFavorite === false) {
+      setFavorites([...saved, newFavorite]);
+      setIsFavorite(true);
+    } else if (saved !== null && isFavorite !== false) {
+      const newArr = saved.filter((fav) => fav.id !== id);
+      setFavorites(newArr);
+      setIsFavorite(false);
+    }
+  };
+
   return (
     <div className="details-main-content">
       <h1>{title}</h1>
@@ -101,7 +138,23 @@ function MealsDetails() {
         <aside>
           <h3 data-testid="recipe-title">{ localResp?.strMeal }</h3>
           <h4 data-testid="recipe-category">{ localResp?.strCategory }</h4>
-          <ShareFavoriteBtn />
+          {/* <ShareFavoriteBtn /> */}
+          <input
+            src={ shareIcon }
+            alt="share"
+            data-testid="share-btn"
+            type="image"
+            onClick={ clipCopy }
+          />
+          {copiedLink && <p>Link copied!</p>}
+
+          <input
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+            type="image"
+            onClick={ onFavoriteCheck }
+          />
         </aside>
 
       </div>

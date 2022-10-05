@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import RecomendationMeals from '../Components/RecomendationMeals';
-import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
+// import ShareFavoriteBtn from '../Components/ShareFavoriteBtn';
 import { requestDetails } from '../helpers/Services/apiRequest';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function DrinksDetails() {
   const { id } = useParams();
@@ -11,6 +15,11 @@ function DrinksDetails() {
   const [measures, setMeasures] = useState([]);
   const title = 'DrinksDetails';
   const history = useHistory();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
+  const [copiedLink, setCopiedLink] = useState(false);
+  const [recipeFinished, setRecipeFinished] = useState(true);
+  const [recipeInProgress, setRecipeInProgress] = useState(true);
 
   useEffect(() => {
     const fetch = async () => {
@@ -18,6 +27,8 @@ function DrinksDetails() {
       setLocalResp(response[0]);
     };
     fetch();
+    setRecipeFinished(true);
+    setRecipeInProgress(true);
   }, []);
 
   useEffect(() => {
@@ -37,6 +48,64 @@ function DrinksDetails() {
     setMeasures(measureValues.filter((meas) => meas !== ' '));
   }, [localResp]);
 
+  const clipCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+    setCopiedLink(true);
+  };
+
+  const startBtn = (
+    <div>
+      <button
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        type="button"
+        onClick={ () => history.push(`${id}/in-progress`) }
+        value="Start Recipe"
+      >
+        Start Recipe
+      </button>
+    </div>
+  );
+
+  const continueBtn = (
+    <div>
+      <button
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+        type="button"
+        onClick={ () => history.push(`${id}/in-progress`) }
+        value="Continue Recipe"
+      >
+        Continue Recipe
+      </button>
+    </div>
+  );
+
+  useEffect(() => {
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+  }, []);
+
+  const onFavoriteCheck = () => {
+    const newFavorite = {
+      id: localResp.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: localResp.strCategory,
+      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
+      name: localResp.strDrink,
+      image: localResp.strDrinkThumb,
+    };
+    const saved = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (saved !== null && isFavorite === false) {
+      setFavorites([...saved, newFavorite]);
+      setIsFavorite(true);
+    } else if (saved !== null && isFavorite !== false) {
+      const newArr = saved.filter((fav) => fav.id !== id);
+      setFavorites(newArr);
+      setIsFavorite(false);
+    }
+  };
+
   return (
     <div className="details-main-content">
       <h1>{title}</h1>
@@ -55,9 +124,25 @@ function DrinksDetails() {
             { localResp?.strCategory }
             {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
+            <input
+              src={ shareIcon }
+              alt="share"
+              data-testid="share-btn"
+              type="image"
+              onClick={ clipCopy }
+            />
+            {copiedLink && <p>Link copied!</p>}
 
+            <input
+              src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+              alt="favorite"
+              data-testid="favorite-btn"
+              type="image"
+              onClick={ onFavoriteCheck }
+            />
           </h4>
-          <ShareFavoriteBtn />
+
+          {/* <ShareFavoriteBtn /> */}
         </aside>
 
       </div>
@@ -85,16 +170,7 @@ function DrinksDetails() {
         />
       </div>
       <RecomendationMeals />
-
-      <button
-        data-testid="start-recipe-btn"
-        className="start-recipe-btn btn"
-        type="button"
-        onClick={ () => history.push(`${id}/in-progress`) }
-      >
-        Start Recipe
-
-      </button>
+      {recipeFinished && <div>{recipeInProgress ? continueBtn : startBtn}</div>}
     </div>
   );
 }

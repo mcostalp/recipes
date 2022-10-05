@@ -27,13 +27,13 @@ function DrinkInProgress() {
     const fetch = async () => {
       const response = await requestDrinkInProgress(id);
       setLocalResp(response[0]);
+      console.log(inProgressLocalStorage);
     };
     fetch();
   }, []);
 
   useEffect(() => {
     const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    console.log(inProgressLocalStorage);
     Object.keys(inProgress).forEach((key) => {
       if (key === id) {
         setCheck(inProgress[key]);
@@ -82,9 +82,9 @@ function DrinkInProgress() {
 
   const onFinishBtnClick = async () => {
     const newDoneRecipe = {
+      nationality: '',
       id: localResp.idDrink,
       type: 'drink',
-      nationality: localResp.strArea,
       category: localResp.strCategory,
       alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
       name: localResp.strDrink,
@@ -106,7 +106,7 @@ function DrinkInProgress() {
     const newFavorite = {
       id: localResp.idDrink,
       type: 'drink',
-      nationality: localResp.strArea,
+      nationality: '',
       category: localResp.strCategory,
       alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
       name: localResp.strDrink,
