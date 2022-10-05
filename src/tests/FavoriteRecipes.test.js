@@ -3,97 +3,73 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from '../helpers/renderWithRouter';
 import App from '../App';
-// import favoriteRecipes from './Mocks/data/doneRecipes';
 
 const url = '/favorite-recipes';
 
 describe('', () => {
-  // beforeEach(() => {
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-  //   Object.assign(window.navigator, {
-  //     clipboard: {
-  //       writeText: jest.fn().mockImplementation(() => Promise.resolve()),
-  //     },
-  //   });
-  // });
-  // afterEach(() => {
-  //   localStorage.clear();
-  // });
+  const favoriteRecipes = [
+    {
+      id: '52771',
+      type: 'meal',
+      nationality: 'Italian',
+      category: 'Vegetarian',
+      alcoholicOrNot: '',
+      name: 'Spicy Arrabiata Penne',
+      image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    },
+    {
+      id: '178319',
+      type: 'drink',
+      nationality: '',
+      category: 'Cocktail',
+      alcoholicOrNot: 'Alcoholic',
+      name: 'Aquamarine',
+      image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    },
+  ];
+  beforeEach(() => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    Object.assign(window.navigator, {
+      clipboard: {
+        writeText: jest.fn().mockImplementation(() => Promise.resolve()),
+      },
+    });
+  });
+  afterEach(() => {
+    localStorage.clear();
+  });
   test('verify if the favorite recipes elements appears', () => {
     renderWithRouter(<App />, [url]);
 
-    const h0Img = screen.getByTestId('0-horizontal-image');
-    const h0topText = screen.getByTestId('0-horizontal-top-text');
-    const h0name = screen.getByTestId('0-horizontal-name');
-    const h0shareBtn = screen.getByTestId('0-horizontal-share-btn');
+    const firstImage = screen.getByTestId('0-horizontal-image');
+    const secondImage = screen.getByTestId('1-horizontal-image');
+    const allBtn = screen.getByTestId('filter-by-all-btn');
+    const mealBtn = screen.getByTestId('filter-by-meal-btn');
+    const drinkBtn = screen.getByTestId('filter-by-drink-btn');
 
-    const h1Img = screen.getByTestId('1-horizontal-image');
-    const h1topText = screen.getByTestId('1-horizontal-top-text');
-    const h1name = screen.getByTestId('1-horizontal-name');
-    const h1shareBtn = screen.getByTestId('1-horizontal-share-btn');
+    expect(allBtn).toBeInTheDocument();
+    expect(mealBtn).toBeInTheDocument();
+    expect(drinkBtn).toBeInTheDocument();
 
-    expect(h0Img).toBeInTheDocument();
-    expect(h0topText).toBeInTheDocument();
-    expect(h0name).toBeInTheDocument();
-    expect(h0shareBtn).toBeInTheDocument();
-    expect(h1Img).toBeInTheDocument();
-    expect(h1topText).toBeInTheDocument();
-    expect(h1name).toBeInTheDocument();
-    expect(h1shareBtn).toBeInTheDocument();
-  });
-  test('verify if the copy button is working', () => {
-    renderWithRouter(<App />, [url]);
+    expect(firstImage).toBeInTheDocument();
+    expect(firstImage).toHaveProperty('src', 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg');
 
-    const shareBtnEl = screen.getAllByAltText(/^share$/i);
-    expect(shareBtnEl).toHaveLength(3);
+    expect(screen.getByTestId('0-horizontal-top-text')).toBeInTheDocument();
+    expect(screen.getByTestId('0-horizontal-name')).toBeInTheDocument();
+    expect(screen.getByTestId('0-horizontal-share-btn')).toBeInTheDocument();
+    expect(screen.getByTestId('0-horizontal-favorite-btn')).toBeInTheDocument();
 
-    userEvent.click(shareBtnEl[0]);
+    expect(secondImage).toBeInTheDocument();
+    expect(secondImage).toHaveProperty('src', 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg');
 
-    const copyTextEl = screen.getAllByText(/^Link copied!$/i);
-    expect(copyTextEl).toHaveLength(1);
-  });
-  test('verify if the filters buttons are working properly', () => {
-    renderWithRouter(<App />, [url]);
+    expect(screen.getByTestId('1-horizontal-top-text')).toBeInTheDocument();
+    expect(screen.getByTestId('1-horizontal-name')).toBeInTheDocument();
+    expect(screen.getByTestId('1-horizontal-share-btn')).toBeInTheDocument();
+    expect(screen.getByTestId('1-horizontal-favorite-btn')).toBeInTheDocument();
 
-    const filterFoodBtn = screen.getByTestId('filter-by-food-btn');
-    const filterDrinkBtn = screen.getByTestId('filter-by-drink-btn');
-    const filterAllBtn = screen.getByTestId('filter-by-all-btn');
-
-    let cardDoneEl = screen.getAllByTestId(/-horizontal-image/i);
-    expect(cardDoneEl).toHaveLength(3);
-
-    userEvent.click(filterFoodBtn);
-    cardDoneEl = screen.getAllByTestId(/-horizontal-image/i);
-    expect(cardDoneEl).toHaveLength(2);
-    userEvent.click(filterDrinkBtn);
-    cardDoneEl = screen.getAllByTestId(/-horizontal-image/i);
-    expect(cardDoneEl).toHaveLength(1);
-    userEvent.click(filterAllBtn);
-    cardDoneEl = screen.getAllByTestId(/-horizontal-image/i);
-    expect(cardDoneEl).toHaveLength(3);
-  });
-  test('verify if the copy button is working', () => {
-    renderWithRouter(<App />, [url]);
-
-    let favoriteBtnEl = screen.getAllByAltText(/^favorite$/i);
-    expect(favoriteBtnEl).toHaveLength(3);
-
-    userEvent.click(favoriteBtnEl[0]);
-    favoriteBtnEl = screen.getAllByAltText(/^favorite$/i);
-    expect(favoriteBtnEl).toHaveLength(2);
-  });
-  test('', () => {
-    localStorage.clear();
-    renderWithRouter(<App />, [url]);
-
-    const pageTitleEl = screen.getByRole('heading', { name: /favorite recipes/i, level: 1 });
-    const filterFoodBtn = screen.getByTestId('filter-by-food-btn');
-    const filterDrinkBtn = screen.getByTestId('filter-by-drink-btn');
-    const filterAllBtn = screen.getByTestId('filter-by-all-btn');
-
-    expect(pageTitleEl).toBeInTheDocument();
-    expect(filterFoodBtn).toBeInTheDocument();
-    expect(filterDrinkBtn).toBeInTheDocument();
-    expect(filterAllBtn).toBeInTheDocument();
+    userEvent.click(mealBtn);
+    expect(screen.getByText(/arrabia/i)).toBeInTheDocument();
+    userEvent.click(drinkBtn);
+    expect(screen.getByText(/aquam/i)).toBeInTheDocument();
   });
 });

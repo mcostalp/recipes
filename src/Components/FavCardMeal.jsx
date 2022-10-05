@@ -11,7 +11,6 @@ export default function FavCardMeal({ item, index }) {
   const [copiedLink, setCopiedLink] = useState(false);
   const [isFavorite, setIsFavorite] = useState(true);
   const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
-  const [mount, setMount] = useState(false);
 
   const clipCopy = () => {
     navigator.clipboard.writeText(`http://localhost:3000/meals/${item.id}`);
@@ -24,14 +23,12 @@ export default function FavCardMeal({ item, index }) {
 
   useEffect(() => {
     setIsFavorite(favorites.some((fav) => fav.id === item.id));
-    setMount(true);
-  }, [mount, favorites, item.id, isFavorite]);
+  }, [isFavorite, favorites]);
 
   const onFavoriteCheck = () => {
     const newArr = favorites.filter((fav) => fav.id !== item.id);
     setFavorites(newArr);
     setIsFavorite(false);
-    setMount(false);
   };
 
   return (
