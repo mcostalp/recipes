@@ -1,5 +1,49 @@
-.start-recipe-btn {
-  bottom: 0;
-  position: fixed;
-  width: 100%;
+@media screen and ( max-width : 480px ) {
+
+  .details-main-content {
+    flex-flow: wrap;
+    height: 100vh;
+    overflow: scroll;
+    padding-bottom: 2.5rem;
+  }
+
+  .recipe-container {
+    align-items: center;
+    display: flex;
+
+  }
+
+  .recipe-container img {
+    border-radius: 100%;
+    box-shadow: 1px 3px 5px black;
+    margin-bottom: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  .recipe-container aside h3 {
+    flex-flow: wrap;
+    margin-bottom: 0.8rem;
+  }
+
+  .recipe-container aside h4 {
+    flex-flow: wrap;
+    margin-bottom: 0.8rem;
+  }
+
+  .recipe-container aside input {
+    flex-flow: wrap;
+    margin-bottom: 0.8rem;
+    margin-right: 1rem;
+  }
+
+  .start-recipe-btn {
+    background-color: red;
+    border: 2px solid black;
+    bottom: 0;
+    box-shadow: 2px 2px 10px black;
+    color: white;
+    position: fixed;
+    width: 100vw;
+  }
+
 }

@@ -5,6 +5,7 @@ import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import { fetchApi } from '../helpers/Services/apiRequest';
 import RecipesContext from '../context/RecipesContext';
+import '../Styles/Header.css';
 
 function Header({ profile, searchButton, h1Title }) {
   const history = useHistory();
@@ -63,7 +64,7 @@ function Header({ profile, searchButton, h1Title }) {
   />);
 
   const searchBox = (
-    <form onSubmit={ onBtnClick }>
+    <form className="search-box" onSubmit={ onBtnClick }>
       <input
         data-testid="search-input"
         type="text"
@@ -71,12 +72,13 @@ function Header({ profile, searchButton, h1Title }) {
         onChange={ onChange }
       />
       <input
+        className="search-btn btn"
         data-testid="exec-search-btn"
         type="submit"
         value="Procurar"
       />
       <label htmlFor="ingredient-search-radio">
-        Ingredient
+
         <input
           data-testid="ingredient-search-radio"
           type="radio"
@@ -84,9 +86,10 @@ function Header({ profile, searchButton, h1Title }) {
           name="search-options"
           value="ingredient"
         />
+        Ingredient
       </label>
       <label htmlFor="name-search-radio">
-        Name
+
         <input
           data-testid="name-search-radio"
           type="radio"
@@ -94,9 +97,9 @@ function Header({ profile, searchButton, h1Title }) {
           name="search-options"
           value="name"
         />
+        Name
       </label>
       <label htmlFor="first-letter-search-radio">
-        First letter
         <input
           data-testid="first-letter-search-radio"
           type="radio"
@@ -104,6 +107,7 @@ function Header({ profile, searchButton, h1Title }) {
           name="search-options"
           value="firstLetter"
         />
+        First letter
       </label>
     </form>
   );
@@ -128,8 +132,8 @@ function Header({ profile, searchButton, h1Title }) {
       </h1>
       <div>
         {searchButton && (searchImg)}
-        {inputState && (searchBox)}
       </div>
+      {inputState && (searchBox)}
     </header>
   );
 }

@@ -1,15 +1,19 @@
-.recomend-main-container {
-  display: flex;
-  flex-direction: row;
-  overflow-y: hidden;
-  scrollbar-width: none;
-  width: 310px;
-}
+@media screen and ( max-width : 480px ) {
 
-.recomend-main-container::-webkit-scrollbar {
-  display: none;
-}
+  .recomend-main-container {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1rem;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    width: 100vw;
+  }
 
-.recomend-main-container img {
-  margin-right: 30px;
+  .recomend-main-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .recomend-main-container img {
+    margin-right: 2rem;
+  }
 }

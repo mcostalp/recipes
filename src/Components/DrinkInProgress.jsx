@@ -4,6 +4,9 @@ import { requestDrinkInProgress } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
+import '../Styles/DrinkInProgress.css';
+import '../Styles/MealsDetails.css';
 
 function DrinkInProgress() {
   const title = 'Recipe in Progress';
@@ -15,13 +18,27 @@ function DrinkInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [doneLocalStorage, setDoneLocalStorage] = useLocalStorage('doneRecipes', []);
+  const [inProgressLocalStorage,
+    setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', []);
+  const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
 
   useEffect(() => {
     const fetch = async () => {
       const response = await requestDrinkInProgress(id);
       setLocalResp(response[0]);
+      console.log(inProgressLocalStorage);
     };
     fetch();
+  }, []);
+
+  useEffect(() => {
+    const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    Object.keys(inProgress).forEach((key) => {
+      if (key === id) {
+        setCheck(inProgress[key]);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -29,11 +46,11 @@ function DrinkInProgress() {
     const firstIngredientPosition = Object.keys(localResp)
       .indexOf('strIngredient1');
     const lastIngredientPosition = Object.keys(localResp)
-      .indexOf('strIngredient20');
+      .indexOf('strIngredient14');
     const fitstMeasurePosition = Object.keys(localResp)
       .indexOf('strMeasure1');
     const lastMeasurePosition = Object.keys(localResp)
-      .indexOf('strMeasure20');
+      .indexOf('strMeasure14');
     const ingredientValues = Object.values(localResp)
       .slice(firstIngredientPosition, lastIngredientPosition);
     const measureValues = Object.values(localResp)
@@ -43,18 +60,18 @@ function DrinkInProgress() {
     setIngredients(ingredientValues.filter((ing) => ing));
   }, [localResp]);
 
-  useEffect(() => {
-    console.log(ingredients, measures);
-  }, [ingredients, measures]);
-
   const onCheckClick = (({ target }) => {
     if (check.length === 0 || target.checked) {
-      setCheck([...check,
-        target.value]);
+      const localCheck = [...check,
+        target.value];
+      setCheck(localCheck);
+      setInProgressLocalStorage({ [id]: localCheck });
     } else {
       const newCheckArr = check.filter((ch) => ch !== target.value);
       setCheck(newCheckArr);
+      setInProgressLocalStorage({ [id]: newCheckArr });
     }
+    console.log(!check.includes(target.value));
     console.log(target.value);
   });
 
@@ -63,45 +80,92 @@ function DrinkInProgress() {
     setCopiedLink(true);
   };
 
-  const onFinishBtnClick = () => {
+  const onFinishBtnClick = async () => {
+    const newDoneRecipe = {
+      nationality: '',
+      id: localResp.idDrink,
+      type: 'drink',
+      category: localResp.strCategory,
+      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
+      name: localResp.strDrink,
+      image: localResp.strDrinkThumb,
+      doneDate: Date(),
+      tags: localResp.strTags !== null ? localResp.strTags
+        .split(',') : '',
+    };
+    const saved = doneLocalStorage;
+    await setDoneLocalStorage([...saved, newDoneRecipe]);
     history.push('/done-recipes');
   };
 
+  useEffect(() => {
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+  }, []);
+
+  const onFavoriteCheck = () => {
+    const newFavorite = {
+      id: localResp.idDrink,
+      type: 'drink',
+      nationality: '',
+      category: localResp.strCategory,
+      alcoholicOrNot: localResp.strAlcoholic === 'Alcoholic' ? 'Alcoholic' : '',
+      name: localResp.strDrink,
+      image: localResp.strDrinkThumb,
+    };
+    const saved = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (saved !== null && isFavorite === false) {
+      setFavorites([...saved, newFavorite]);
+      setIsFavorite(true);
+    } else if (saved !== null && isFavorite !== false) {
+      const newArr = saved.filter((fav) => fav.id !== id);
+      setFavorites(newArr);
+      setIsFavorite(false);
+    }
+  };
+
   return (
-    <div>
+    <div details-main-content>
       <h1>{title}</h1>
-      <img
-        height="150"
-        data-testid="recipe-photo"
-        src={ localResp?.strDrinkThumb }
-        alt={ localResp?.strDrink }
-      />
-      <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
-      <input
-        src={ shareIcon }
-        alt="share"
-        data-testid="share-btn"
-        type="image"
-        onClick={ clipCopy }
-      />
-      {copiedLink && <p>Link copied!</p>}
 
-      <input
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-        alt="favorite"
-        data-testid="favorite-btn"
-        type="image"
-        onClick={ () => setIsFavorite(!isFavorite) }
-      />
+      <div className="recipe-container">
+        <img
+          height="150"
+          data-testid="recipe-photo"
+          src={ localResp?.strDrinkThumb }
+          alt={ localResp?.strDrink }
+        />
 
-      <h4 data-testid="recipe-category">
-        { localResp?.strCategory }
-        {`${localResp?.strCategory}
+        <aside>
+          <h3 data-testid="recipe-title">{ localResp?.strDrink }</h3>
+          <input
+            src={ shareIcon }
+            alt="share"
+            data-testid="share-btn"
+            type="image"
+            onClick={ clipCopy }
+          />
+          {copiedLink && <p>Link copied!</p>}
+
+          <input
+            src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+            alt="favorite"
+            data-testid="favorite-btn"
+            type="image"
+            onClick={ onFavoriteCheck }
+          />
+
+          <h4 data-testid="recipe-category">
+            { localResp?.strCategory }
+            {`${localResp?.strCategory}
       ${localResp?.strAlcoholic === 'Alcoholic' ? '- Alcoholic' : ''}`}
 
-      </h4>
-      <ul>
-        {measures.map((measure, index) => (
+          </h4>
+        </aside>
+
+      </div>
+
+      <ul className="ol-container">
+        {ingredients.map((ingredient, index) => (
           <label
             htmlFor={ ingredients[index] }
             key={ index }
@@ -112,13 +176,16 @@ function DrinkInProgress() {
               type="checkbox"
               value={ ingredients[index] }
               onChange={ onCheckClick }
+              checked={ check.includes(ingredient) }
             />
+
             <li
               data-testid={ `${index}-ingredient-name-and-measure` }
               key={ index }
             >
-              {`${ingredients[index]}: ${measures[index]}`}
+              {`${ingredient}: ${measures[index]}`}
             </li>
+
           </label>
         ))}
       </ul>

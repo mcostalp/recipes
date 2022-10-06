@@ -14,6 +14,7 @@ export default function RecipesProvider({ children }) {
   const [categoryBtns, setCategoryBtns] = useState([]);
   const [userEmail, setUserEmail] = useState('');
   const [detailResponse, setDetailResponse] = useState([]);
+  const [check, setCheck] = useState([]);
 
   // const mail
 
@@ -74,6 +75,8 @@ export default function RecipesProvider({ children }) {
     setUserEmail,
     detailResponse,
     setDetailResponse,
+    check,
+    setCheck,
   };
 
   return (

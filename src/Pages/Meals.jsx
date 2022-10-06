@@ -4,6 +4,7 @@ import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import RecipesContext from '../context/RecipesContext';
 import Recipes from '../Components/Recipes';
+import '../Styles/RecipeCard.css';
 
 function Meals() {
   const h1Title = 'Meals';
@@ -16,7 +17,7 @@ function Meals() {
   }, []);
 
   return (
-    <div>
+    <>
       <Header
         searchButton
         profile
@@ -25,7 +26,7 @@ function Meals() {
       />
       <Recipes />
       <Footer />
-    </div>
+    </>
   );
 }
 

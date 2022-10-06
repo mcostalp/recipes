@@ -47,9 +47,9 @@ describe('Header component tests', () => {
 
     userEvent.click(screen.getByTestId(searchIcon));
 
-    expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
+    //  expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
     expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
-    expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
+    //  expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
     expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
   });
 
@@ -113,5 +113,18 @@ describe('Header component tests', () => {
 
     const drinksHeading = screen.getByText(/drinks/i);
     expect(drinksHeading).toBeInTheDocument();
+  });
+
+  test('on click in search icon, radios options and search button is on the screen', () => {
+    const { history } = renderWithRouter(<App />);
+
+    history.push('/meals');
+
+    userEvent.click(screen.getByTestId(searchIcon));
+
+    expect(screen.getByTestId('exec-search-btn')).toBeInTheDocument();
+    expect(screen.getByTestId('ingredient-search-radio')).toBeInTheDocument();
+    expect(screen.getByTestId('name-search-radio')).toBeInTheDocument();
+    expect(screen.getByTestId('first-letter-search-radio')).toBeInTheDocument();
   });
 });

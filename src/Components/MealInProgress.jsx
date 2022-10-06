@@ -4,6 +4,7 @@ import { requestDetails } from '../helpers/Services/apiRequest';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
+import useLocalStorage from '../hooks/useLocalStorage';
 
 function MealInProgress() {
   const title = 'Recipe in Progress';
@@ -15,13 +16,34 @@ function MealInProgress() {
   const [isFavorite, setIsFavorite] = useState(false);
   const [check, setCheck] = useState([]);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [doneLocalStorage, setDoneLocalStorage] = useLocalStorage('doneRecipes', []);
+  const [inProgressLocalStorage,
+    setInProgressLocalStorage] = useLocalStorage('inProgressRecipes', []);
+  const [favorites, setFavorites] = useLocalStorage('favoriteRecipes', []);
 
   useEffect(() => {
     const fetch = async () => {
       const response = await requestDetails('meals-all', 'recipeById', id);
       setLocalResp(response[0]);
+      console.log(response[0]);
     };
     fetch();
+    console.log(doneLocalStorage);
+    // const saved = JSON.parse(localStorage.getItem('doneRecipes'));
+    // const localSave = localDone;
+    // if (saved !== null) {
+    //   setLocalDone([...saved, ...localSave]);
+    // }
+  }, []);
+
+  useEffect(() => {
+    const inProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    console.log(inProgressLocalStorage, doneLocalStorage);
+    Object.keys(inProgress).forEach((key) => {
+      if (key === id) {
+        setCheck(inProgress[key]);
+      }
+    });
   }, []);
 
   useEffect(() => {
@@ -41,18 +63,18 @@ function MealInProgress() {
     setMeasures(measureValues.filter((meas) => meas !== '' && meas !== null));
   }, [localResp]);
 
-  useEffect(() => {
-    console.log(history.location);
-  }, [ingredients, measures, check]);
-
   const onCheckClick = (({ target }) => {
     if (check.length === 0 || target.checked) {
-      setCheck([...check,
-        target.value]);
+      const localCheck = [...check,
+        target.value];
+      setCheck(localCheck);
+      setInProgressLocalStorage({ [id]: localCheck });
     } else {
       const newCheckArr = check.filter((ch) => ch !== target.value);
       setCheck(newCheckArr);
+      setInProgressLocalStorage({ [id]: newCheckArr });
     }
+    console.log(inProgressLocalStorage);
     console.log(target.value);
   });
 
@@ -61,8 +83,47 @@ function MealInProgress() {
     setCopiedLink(true);
   };
 
-  const onFinishBtnClick = () => {
+  const onFinishBtnClick = async () => {
+    const newDoneRecipe = {
+      id: localResp.idMeal,
+      type: 'meal',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: '',
+      name: localResp.strMeal,
+      image: localResp.strMealThumb,
+      doneDate: Date(),
+      tags: localResp.strTags !== null ? localResp.strTags
+        .split(',') : '',
+    };
+    const saved = doneLocalStorage;
+    await setDoneLocalStorage([...saved, newDoneRecipe]);
     history.push('/done-recipes');
+  };
+
+  useEffect(() => {
+    setIsFavorite(favorites.some((fav) => fav.id === id));
+  }, []);
+
+  const onFavoriteCheck = () => {
+    const newFavorite = {
+      id: localResp.idMeal,
+      type: 'meal',
+      nationality: localResp.strArea,
+      category: localResp.strCategory,
+      alcoholicOrNot: '',
+      name: localResp.strMeal,
+      image: localResp.strMealThumb,
+    };
+    const saved = favorites;
+    if (saved !== null && isFavorite === false) {
+      setFavorites([...saved, newFavorite]);
+      setIsFavorite(true);
+    } else if (saved !== null && isFavorite !== false) {
+      const newArr = saved.filter((fav) => fav.id !== id);
+      setFavorites(newArr);
+      setIsFavorite(false);
+    }
   };
 
   return (
@@ -90,7 +151,7 @@ function MealInProgress() {
         alt="favorite"
         data-testid="favorite-btn"
         type="image"
-        onClick={ () => setIsFavorite(!isFavorite) }
+        onClick={ onFavoriteCheck }
       />
 
       <h4 data-testid="recipe-category">
@@ -106,9 +167,10 @@ function MealInProgress() {
             <input
               id={ ingredient }
               type="checkbox"
+              name={ ingredient }
               value={ ingredient }
               onChange={ onCheckClick }
-
+              checked={ check.includes(ingredient) }
             />
             <li
               data-testid={ `${index}-ingredient-name-and-measure` }

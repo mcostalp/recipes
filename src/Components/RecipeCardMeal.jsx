@@ -5,6 +5,7 @@ import {
   requestCategoryListItems,
   requestFetchAll,
 } from '../helpers/Services/apiRequest';
+import '../Styles/RecipeCard.css';
 
 const MAX_ITEM_LENGTH = 12;
 const MAX_BTN_LENGTH = 5;
@@ -61,40 +62,51 @@ function RecipeCardMeal() {
   };
 
   return (
-    <div>
-      {btns
-        .slice(0, MAX_BTN_LENGTH).map((item, index) => (
-          <button
-            type="button"
-            key={ index }
-            data-testid={ `${item.strCategory}-category-filter` }
-            name={ item.strCategory }
-            onClick={ onBtnClick }
-          >
-            {item.strCategory}
-          </button>))}
-      <button
-        type="button"
-        data-testid="All-category-filter"
-        name="All-category-filter"
-        onClick={ onAllBtnClick }
-      >
-        All
-      </button>
-      {resp !== null ? resp
-        .slice(0, MAX_ITEM_LENGTH).map((item, index) => (
-          <Link key={ index } to={ `/meals/${item.idMeal}` }>
-            <div className="meal" data-testid={ `${index}-recipe-card` }>
-              <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
-              <img
-                height="150"
-                data-testid={ `${index}-card-img` }
-                src={ item.strMealThumb }
-                alt={ item.strMeal }
-              />
-            </div>
-          </Link>)) : []}
-    </div>
+    <>
+      <div className="filter-btns">
+        <button
+          className="btn"
+          type="button"
+          data-testid="All-category-filter"
+          name="All-category-filter"
+          onClick={ onAllBtnClick }
+        >
+          All
+        </button>
+        {btns
+          .slice(0, MAX_BTN_LENGTH).map((item, index) => (
+            <button
+              className="btn"
+              type="button"
+              key={ index }
+              data-testid={ `${item.strCategory}-category-filter` }
+              name={ item.strCategory }
+              onClick={ onBtnClick }
+            >
+              {item.strCategory}
+            </button>))}
+
+      </div>
+
+      <div className="recipe-card-main-container">
+        <div className="bg-cards" />
+        {resp !== null ? resp
+          .slice(0, MAX_ITEM_LENGTH).map((item, index) => (
+            <Link key={ index } to={ `/meals/${item.idMeal}` }>
+              <div className="meal" data-testid={ `${index}-recipe-card` }>
+                <img
+                  height="150"
+                  data-testid={ `${index}-card-img` }
+                  src={ item.strMealThumb }
+                  alt={ item.strMeal }
+                />
+                <div className="recipe-card">
+                  <h2 data-testid={ `${index}-card-name` }>{item.strMeal}</h2>
+                </div>
+              </div>
+            </Link>)) : []}
+      </div>
+    </>
   );
 }
 

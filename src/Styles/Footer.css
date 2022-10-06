@@ -1,0 +1,23 @@
+@media screen and ( max-width : 480px ) {
+
+  footer {
+    align-items: center;
+    background-color: #fac40c;
+    bottom: 0;
+    display: flex;
+    height: 40px;
+    justify-content: space-around;
+    position: fixed;
+    width: 100vw;
+  }
+
+  footer input {
+    height: 30px;
+    width: 30px;
+  }
+
+  .active {
+    background-color: white;
+  }
+
+}

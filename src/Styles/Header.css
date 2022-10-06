@@ -1,0 +1,33 @@
+@media screen and ( max-width : 480px ) {
+
+  header {
+    background-color: #fac40c;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-between;
+    padding: 0.5rem;
+
+  }
+
+  header .search-box {
+    align-items: center;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: center;
+    margin: 0.5rem;
+    max-width: 1000px;
+    padding: 0.5rem;
+    width: 100%;
+
+  }
+
+  header .search-box input {
+    justify-content: center;
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
+  }
+
+  header .search-box .search-btn {
+    border: 1px solid black;
+  }
+}
