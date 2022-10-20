@@ -18,19 +18,6 @@ export default function RecipesProvider({ children }) {
 
   // const mail
 
-  const dataTreatement = (resp) => {
-    Promise.resolve(resp)
-      .then((res) => {
-        if (res === null) {
-          console.log(res);
-        } else if (res.length === 1) {
-          const id = Object.values(res[0])[0];
-          const page = title.toLowerCase();
-          history.push(`/${page}/${id}`);
-        }
-      });
-  };
-
   useEffect(() => {
     setResponse(requestFetchAll(pageState, 'allRecipesList'));
     setCategoryBtns(requestCategoryButtons(pageState, 'categoryListBtns'));
