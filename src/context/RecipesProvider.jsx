@@ -54,7 +54,6 @@ export default function RecipesProvider({ children }) {
     setResponse,
     pageState,
     setPageState,
-    dataTreatement,
     dataSwitch,
     categoryBtns,
     setCategoryBtns,
