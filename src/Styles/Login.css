@@ -1,60 +1,57 @@
-@media screen and ( max-width : 480px ) {
+.main-container-login .bg-image {
+  background-image: url("../images/bg-login-image.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(3px);
+  height: 70vh;
+  position: fixed;
+  width: 100vw;
+}
 
-  .main-container-login .bg-image {
-    background-image: url('../images/bg-login-image.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    filter: blur(3px);
-    height: 70vh;
-    position: fixed;
-    width: 100vw;
-  }
+.login-card {
+  align-items: center;
+  background-color: white;
+  border-radius: 2rem 2rem 0 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 40vh;
+  justify-content: center;
+  padding: 1rem;
+  position: absolute;
+  width: 100vw;
+}
 
-  .login-card {
-    align-items: center;
-    background-color: white;
-    border-radius: 2rem 2rem 0 0;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    height: 40vh;
-    justify-content: center;
-    padding: 1rem;
-    position: absolute;
-    width: 100vw;
-  }
+.login-card .login-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  width: 80%;
+}
 
-  .login-card .login-head {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    width: 80%;
-  }
+.login-card .login-head h5 {
+  color: rgb(116, 116, 116);
+}
 
-  .login-card .login-head h5 {
-    color: rgb(116, 116, 116);
-  }
+.login-card input {
+  background-color: white;
+  border-style: hidden hidden solid;
+}
 
-  .login-card input {
-    background-color: white;
-    border-style: hidden hidden solid;
-  }
+.login-card input:focus {
+  outline: none;
+}
 
-  .login-card input:focus {
-    outline: none;
-  }
+.login-card label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
 
+.login-card button:enabled {
+  background-color: red;
+  font-weight: 500;
+}
 
-  .login-card label {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
-  }
-
-  .login-card button:enabled {
-    background-color: red;
-    font-weight: 500;
-
-  }
-
+@media screen and (min-width: 1024px) {
 }
