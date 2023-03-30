@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/recipes/static/css/main.2b4effbc.css",
-    "main.js": "/recipes/static/js/main.8584152b.js",
+    "main.css": "/recipes/static/css/main.076259b0.css",
+    "main.js": "/recipes/static/js/main.a24a9ae9.js",
     "static/media/bg-login-image.jpg": "/recipes/static/media/bg-login-image.9cd921bf05c514c0374a.jpg",
     "static/media/mealIcon.svg": "/recipes/static/media/mealIcon.40029e7f1422ba5a1bf1c10fa4f59030.svg",
     "static/media/shareIcon.svg": "/recipes/static/media/shareIcon.87def1bd1dff9af9263f046c3b9bd31a.svg",
@@ -11,11 +11,11 @@
     "static/media/blackHeartIcon.svg": "/recipes/static/media/blackHeartIcon.083cb006913d197c95857ebfa2161db7.svg",
     "static/media/drinkIcon.svg": "/recipes/static/media/drinkIcon.efc0d3c156e5da73e44a826c8d67b142.svg",
     "index.html": "/recipes/index.html",
-    "main.2b4effbc.css.map": "/recipes/static/css/main.2b4effbc.css.map",
-    "main.8584152b.js.map": "/recipes/static/js/main.8584152b.js.map"
+    "main.076259b0.css.map": "/recipes/static/css/main.076259b0.css.map",
+    "main.a24a9ae9.js.map": "/recipes/static/js/main.a24a9ae9.js.map"
   },
   "entrypoints": [
-    "static/css/main.2b4effbc.css",
-    "static/js/main.8584152b.js"
+    "static/css/main.076259b0.css",
+    "static/js/main.a24a9ae9.js"
   ]
 }
